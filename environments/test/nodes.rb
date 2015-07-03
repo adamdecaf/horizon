@@ -1,5 +1,8 @@
 TEST_INSTANCES = {
   'base' => [
-    'emit1.production.backline.fm'
+    "horz-node-1.horizon",
+    "horz-node-2.horizon",
+    "horz-node-3.horizon",
+    "horz-node-4.horizon"
   ]
 }

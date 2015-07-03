@@ -1,3 +1,3 @@
 # horizon
 
-> A private data hording environment.
+> A private data hording environment

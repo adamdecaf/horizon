@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+require "thor"
+require "thor/group"
+require "colorize"
+
+["test", "production"].each { |env|
+  Dir[File.expand_path("./environments/#{env}/nodes.rb", ".")].each { |file|
+    load(file)
+  }
+}
+
+class Main < Thor
+  desc "converge", "Converge node(s) to some final state."
+  method_option :env, :type => :string, :required => true
+  method_option :service, :type => :string, :required => true
+  def converge
+    env = lookup_env()
+    if env != nil
+      nodes = env[options[:service]]
+      if nodes != nil
+        puts nodes
+        nodes.each do |node|
+          perform_action_on_service(node, options[:service])
+        end
+      else
+        puts "No nodes found for env '#{options[:env]}' and service '#{options[:service]}'"
+        exit 1
+      end
+    else
+      puts "No env found for '#{options[:env]}'"
+      exit 1
+    end
+  end
+
+  desc "update", "Update horizon"
+  def update
+    sys("git pull && bundle install")
+  end
+
+  private
+  def lookup_env()
+    case options[:env]
+    when 'production'
+      PRODUCTION_INSTANCES
+    when 'test'
+      TEST_INSTANCES
+    else
+      nil
+    end
+  end
+
+  def perform_action_on_service(address, service)
+    case service
+    when 'base'
+      converge_node_with_base(address)
+    end
+  end
+
+  def converge_node_with_base(host)
+    ssh_and_execute_file(host, "./bin/packages.sh", "upgrade")
+    ssh_and_execute_file(host, "./bin/packages.sh", "install")
+    ssh_and_execute_file(host, "./bin/setup-sysstat.sh")
+  end
+
+  def pick_authority()
+    if options[:env] == "test"
+      "vagrant@"
+    else
+      "ubuntu@"
+    end
+  end
+
+  def pick_identity()
+    if options[:env] != "test"
+      "-i ~/backln-master.pem"
+    else
+      "-i ~/.vagrant.d/insecure_private_key"
+    end
+  end
+
+  def ssh_and_execute_file(host, file, command = "")
+    tmp_path = "/tmp/file_#{Random.rand(100...10000)}.sh"
+
+    authority = pick_authority()
+    identity = pick_identity()
+
+    puts "scp #{identity} #{file} #{authority}#{host}:#{tmp_path}"
+    sys("scp #{identity} #{file} #{authority}#{host}:#{tmp_path}")
+    sudo_ssh_and_execute(host, "#{tmp_path} #{command}", authority, identity)
+  end
+
+  def sudo_ssh_and_execute(host, command, authority = pick_authority(), identity = pick_identity())
+    ssh_and_execute(host, "sudo #{command}", authority, identity)
+  end
+
+  def ssh_and_execute(host, command, authority = pick_authority(), identity = pick_identity())
+    puts "ssh #{identity} #{authority}#{host} #{command}"
+    sys("ssh #{identity} #{authority}#{host} #{command}")
+  end
+
+  def sys(cmd)
+    if !system(cmd)
+      raise "Something went wrong with ^^^^^^"
+    end
+  end
+end
+
+Main.start

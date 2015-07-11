@@ -28,7 +28,7 @@ xtreemfsosd1:
   image: xtreemfs/xtreemfs-osd
   net: host
   volumes:
-    - "configs/osd1/:/xtreemfs_data"
+    - "configs/osd1/:/xtreemfs_data/"
   ports:
     - "30640:30640"
     - "32640:32640"
@@ -37,7 +37,7 @@ xtreemfsosd2:
   image: xtreemfs/xtreemfs-osd
   net: host
   volumes:
-    - "configs/osd2/:/xtreemfs_data"
+    - "configs/osd2/:/xtreemfs_data/"
   ports:
     - "30642:30642"
     - "32642:32642"
@@ -47,7 +47,7 @@ xtreemfsosd2:
   image: xtreemfs/xtreemfs-osd
   net: host
   volumes:
-    - "configs/osd3/:/xtreemfs_data"
+    - "configs/osd3/:/xtreemfs_data/"
   ports:
     - "30640:30640"
     - "32640:32640"

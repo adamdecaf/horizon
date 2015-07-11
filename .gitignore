@@ -1,2 +1,7 @@
 logs/
 /.vagrant/
+
+# xtreemfs dirs
+configs/dir/
+configs/mrc/
+configs/osd/

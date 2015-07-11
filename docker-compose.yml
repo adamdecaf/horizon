@@ -1,12 +1,5 @@
 # horizon docker-compose
 
-fs:
-  image: ubuntu:14.04
-  links:
-    - xtreemfsdir
-    - xtreemfsmrc
-    - xtreemfsosd
-
 xtreemfsclient:
   image: xtreemfs/xtreemfs-client
   command: /bin/bash
@@ -14,17 +7,27 @@ xtreemfsclient:
 
 xtreemfsdir:
   image: xtreemfs/xtreemfs-dir
+  net: host
   volumes:
     - "configs/:/xtreemfs_data"
   ports:
+    - "30638:30638"
     - "32638:32638"
 
 xtreemfsmrc:
   image: xtreemfs/xtreemfs-mrc
+  net: host
+  volumes:
+    - "configs/:/xtreemfs_data"
   ports:
+    - "30636:30636"
     - "32636:32636"
 
 xtreemfsosd:
   image: xtreemfs/xtreemfs-osd
+  net: host
+  volumes:
+    - "configs/:/xtreemfs_data"
   ports:
+    - "30640:30640"
     - "32640:32640"

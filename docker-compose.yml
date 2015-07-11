@@ -39,8 +39,8 @@ xtreemfsosd2:
   volumes:
     - "configs/osd2/:/xtreemfs_data"
   ports:
-    - "30640:30640"
-    - "32640:32640"
+    - "30642:30642"
+    - "32642:32642"
 
 # horizon2 (8gig)
 xtreemfsosd2:

@@ -23,11 +23,31 @@ xtreemfsmrc:
     - "30636:30636"
     - "32636:32636"
 
-xtreemfsosd:
+# horizon1
+xtreemfsosd1:
   image: xtreemfs/xtreemfs-osd
   net: host
   volumes:
-    - "configs/:/xtreemfs_data"
+    - "configs/osd1/:/xtreemfs_data"
+  ports:
+    - "30640:30640"
+    - "32640:32640"
+
+xtreemfsosd2:
+  image: xtreemfs/xtreemfs-osd
+  net: host
+  volumes:
+    - "configs/osd2/:/xtreemfs_data"
+  ports:
+    - "30640:30640"
+    - "32640:32640"
+
+# horizon2 (8gig)
+xtreemfsosd2:
+  image: xtreemfs/xtreemfs-osd
+  net: host
+  volumes:
+    - "configs/osd3/:/xtreemfs_data"
   ports:
     - "30640:30640"
     - "32640:32640"

@@ -29,7 +29,7 @@ xtreemfsosd1:
   net: host
   volumes:
     - "configs/osd1/:/xtreemfs_data/"
-    - "/media/adam/My Passport1/osd/:/xtreemfs_data/"
+    - "/media/adam/My Passport1/osd/:/xtreemfs_data/osd/"
   ports:
     - "30640:30640"
     - "32640:32640"
@@ -39,7 +39,7 @@ xtreemfsosd2:
   net: host
   volumes:
     - "configs/osd2/:/xtreemfs_data/"
-    - "/media/adam/My Passport2/osd/:/xtreemfs_data/"
+    - "/media/adam/My Passport2/osd/:/xtreemfs_data/osd/"
   ports:
     - "30642:30642"
     - "32642:32642"

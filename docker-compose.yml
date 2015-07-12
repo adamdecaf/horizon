@@ -43,7 +43,7 @@ xtreemfsosd2:
     - "32642:32642"
 
 # horizon2 (8gig)
-xtreemfsosd2:
+xtreemfsosd3:
   image: xtreemfs/xtreemfs-osd
   net: host
   volumes:

@@ -50,6 +50,7 @@ xtreemfsosd3:
   net: host
   volumes:
     - "configs/osd3/:/xtreemfs_data/"
+    - "/media/truecrypt3:/xtreemfs_data/osd/"
   ports:
     - "30640:30640"
     - "32640:32640"

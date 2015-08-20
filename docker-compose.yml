@@ -54,3 +54,14 @@ xtreemfsosd3:
   ports:
     - "30640:30640"
     - "32640:32640"
+
+# horizon3 
+xtreemfsosd4:
+  image: xtreemfs/xtreemfs-osd
+  net: host
+  volumes:
+    - "configs/osd4/:/xtreemfs_data/"
+    - "/mnt/my-passport-1/osd/:/xtreemfs_data/osd/"
+  ports:
+    - "30640:30640"
+    - "32640:32640"

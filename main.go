@@ -9,5 +9,9 @@ import (
 func main() {
 	fmt.Println("Starting horizon")
 
+	// Setup tables
 	storage.MigrateStorage()
+
+	// Insert base data
+	storage.InsertData()
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/adamdecaf/horizon/retrieval"
 	"github.com/adamdecaf/horizon/storage"
 )
 
@@ -14,4 +15,7 @@ func main() {
 
 	// Insert base data
 	storage.InsertData()
+
+	// spawn crawler
+	retrieval.SpawnCrawlers()
 }

@@ -1,0 +1,15 @@
+# horizon images
+
+postgres:
+  build: psql/
+  ports:
+    - "5432:5432"
+  restart: always
+  environment:
+    POSTGRES_DB: horizon
+    POSTGRES_HOSTNAME: 192.168.59.103
+    POSTGRES_USER: horizon
+    POSTGRES_PASSWORD: e06b4ed2b382f68
+  volumes:
+    - /var/lib/postgresql/data/:/var/lib/postgresql/data/
+    - /var/log/postgresql/:/var/log/postgresql/

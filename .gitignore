@@ -5,3 +5,6 @@ logs/
 configs/dir/
 configs/mrc/
 configs/osd/
+
+# horizon specifics
+horizon

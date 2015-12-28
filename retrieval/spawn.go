@@ -14,6 +14,14 @@ func SpawnCrawlers() {
 		panic(err)
 	}
 	CheckCrawlerRun(crawler)
+
+	// reddit crawler
+	fmt.Println("[Spawn] RedditCrawler")
+	reddit, err := SpawnRedditCrawler()
+	if err != nil {
+		panic(err)
+	}
+	CheckCrawlerRun(reddit)
 }
 
 func CheckCrawlerRun(crawler Crawler) {

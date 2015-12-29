@@ -2,6 +2,7 @@
 create table normalized_urls(
        url_id varchar(36) primary key not null,
        url varchar(2048) not null,
+       created_at timestamp not null default now(),
 
        scheme varchar(10) not null,
 

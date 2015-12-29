@@ -9,4 +9,7 @@ export STORAGE_PASSWORD=e06b4ed2b382f68
 export REDDIT_USERNAME=adamdecaf
 export REDDIT_PASSWORD=""
 
+## Start the postgres image
+docker-compose up -d postgres 2> /dev/null
+
 exec ./horizon

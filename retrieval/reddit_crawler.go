@@ -48,6 +48,11 @@ func (c RedditCrawler) Run() *error {
 	return nil
 }
 
-func SpawnRedditCrawler() (Crawler, error) {
-	return RedditCrawler{}, nil
+func SpawnRedditCrawler() *error {
+	if run := os.Getenv("REDDIT_CRAWLER_ENABLED"); run == "yes" {
+		fmt.Println("[Spawn] RedditCrawler")
+		crawler := RedditCrawler{}
+		return RunCrawler(crawler)
+	}
+	return nil
 }

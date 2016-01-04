@@ -16,6 +16,7 @@ func main() {
 	// Insert base data
 	storage.InsertData()
 
-	// spawn crawler
-	retrieval.SpawnCrawlers()
+	// spawn crawlers
+	retrieval.SpawnRedditCrawler()
+	retrieval.SpawnNullCrawler()
 }

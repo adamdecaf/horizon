@@ -13,6 +13,8 @@ func (c NullCrawler) Run() *error {
 	return nil
 }
 
-func SpawnNullCrawler() (Crawler, error) {
-	return NullCrawler{}, nil
+func SpawnNullCrawler() *error {
+	fmt.Println("[Spawn] NullCrawler")
+	crawler := NullCrawler{}
+	return RunCrawler(crawler)
 }

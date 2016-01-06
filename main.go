@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/adamdecaf/horizon/analysis"
 	"github.com/adamdecaf/horizon/retrieval"
 	"github.com/adamdecaf/horizon/storage"
 )
@@ -17,6 +18,9 @@ func main() {
 	storage.InsertData()
 
 	// spawn crawlers
-	retrieval.SpawnRedditCrawler()
 	retrieval.SpawnNullCrawler()
+	retrieval.SpawnRedditCrawler()
+
+	// Start the analysis http server
+	analysis.StartHttpServer()
 }

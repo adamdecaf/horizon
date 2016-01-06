@@ -6,5 +6,21 @@
     <header>
       <h3>Horizon / analysis</h3>
     </header>
+
+    <section>
+      <h5>City Search</h5>
+      <div>
+        <input type="text" id="city" />
+        <input type="button" value="Search Cities" onclick="search_cities();" />
+      </div>
+    </section>
+
+    <script>
+      function search_cities() {
+        var name = document.querySelector("#city");
+        console.log('/cities?q=' + encodeURIComponent(name.value));
+        window.location.href = '/cities?q=' + encodeURIComponent(name.value);
+      }
+    </script>
   </body>
 </html>

@@ -13,6 +13,9 @@ func StartHttpServer() {
 	http.Handle("/", http.FileServer(http.Dir("./analysis/html/")))
 	http.HandleFunc("/ping", routes.Ping)
 
+	// search routes
+	http.HandleFunc("/cities", routes.SearchCities)
+
 	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {

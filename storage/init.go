@@ -10,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// todo: rename to database? postgres?
 func InitializeStorage() (*sql.DB, error) {
 	user := os.Getenv("STORAGE_USER")
 	password := os.Getenv("STORAGE_PASSWORD")

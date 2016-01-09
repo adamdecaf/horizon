@@ -1,27 +1,12 @@
 package storage
 
 import (
-	"math/rand"
 	"testing"
-	"time"
+	"github.com/adamdecaf/horizon/utils"
 )
 
-func init() {
-    rand.Seed(time.Now().UnixNano())
-}
-
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-func RandString(n int) string {
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letterRunes[rand.Intn(len(letterRunes))]
-    }
-    return string(b)
-}
-
 func TestReadWriteCity(t *testing.T) {
-	name := RandString(20)
+	name := utils.RandString(20)
 	empty, err := SearchCitiesByName(name)
 
 	if err != nil {
@@ -32,8 +17,9 @@ func TestReadWriteCity(t *testing.T) {
 		t.Fatal("found cities some how when we didn't expect to find any")
 	}
 
-	id := RandString(20)
-	city := City{id, name}
+	id := utils.RandString(20)
+	stateId := utils.RandString(36)
+	city := City{id, name, stateId}
 
 	if written := WriteCity(city); written != nil {
 		t.Fatalf("error when writing city name=%s, err=%s", name, *written)

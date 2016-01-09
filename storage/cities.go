@@ -6,8 +6,9 @@ import (
 )
 
 type City struct {
-	Id string `json:"id"`
+	Id string `json:"cityId"`
 	Name string `json:"name"`
+	StateId string `json:"stateId"`
 }
 
 func SearchCitiesByName(raw string) ([]City, error) {
@@ -15,24 +16,25 @@ func SearchCitiesByName(raw string) ([]City, error) {
 
 	var id string
 	var name string
+	var stateId string
 
 	db, err := InitializeStorage()
 	if err != nil {
 		return nil, err
 	}
 
-	rows, err := db.Query("select city_id, name from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	rows, err := db.Query("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 	if err != nil {
 		return nil, err
 	}
 
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(&id, &name)
+		err := rows.Scan(&id, &name, &stateId)
 		if err != nil {
 			fmt.Printf("[Storage] error getting cities = %s\n", err)
 		}
-		cities = append(cities, City{id, name})
+		cities = append(cities, City{id, name, stateId})
 	}
 
 	err = rows.Err()
@@ -49,7 +51,7 @@ func WriteCity(city City) *error {
 		return &err
 	}
 
-	result, err := db.Exec("insert into cities (city_id, name) values ($1, $2)", city.Id, city.Name)
+	result, err := db.Exec("insert into cities (city_id, name, state_id) values ($1, $2, $3)", city.Id, city.Name, city.StateId)
 	if err != nil {
 		return &err
 	}

@@ -18,8 +18,8 @@ func TestReadWriteCity(t *testing.T) {
 	}
 
 	id := utils.RandString(20)
-	stateId := utils.RandString(36)
-	city := City{id, name, stateId}
+	state_id := utils.RandString(36)
+	city := City{id, name, state_id}
 
 	if written := WriteCity(city); written != nil {
 		t.Fatalf("error when writing city name=%s, err=%s", name, *written)
@@ -33,6 +33,20 @@ func TestReadWriteCity(t *testing.T) {
 
 	if len(cities) == 1 {
 		found := cities[0]
+		if found.Id != city.Id || found.Name != city.Name {
+			t.Fatalf("cities don't match (written=%s) (found=%s)", city, found)
+		}
+	} else {
+		t.Fatalf("found multiple cities when we expected one name=%s", name)
+	}
+
+	found_cities, err := SearchCitiesByNameAndState(name, state_id)
+	if err != nil {
+		t.Fatalf("error finding city that should exist name=%s, state_id=%s, err=%s\n", name, state_id, err)
+	}
+
+	if len(found_cities) == 1 {
+		found := found_cities[0]
 		if found.Id != city.Id || found.Name != city.Name {
 			t.Fatalf("cities don't match (written=%s) (found=%s)", city, found)
 		}

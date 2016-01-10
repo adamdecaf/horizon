@@ -11,7 +11,15 @@ type City struct {
 	StateId string `json:"stateId"`
 }
 
+func SearchCitiesByNameAndState(city_name string, state_id string) ([]City, error) {
+	return QueryCitiesTable("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%' and state_id = $2;", strings.ToLower(city_name), state_id)
+}
+
 func SearchCitiesByName(raw string) ([]City, error) {
+	return QueryCitiesTable("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+}
+
+func QueryCitiesTable(base string, rest ...interface{}) ([]City, error) {
 	cities := make([]City, 0)
 
 	var id string
@@ -25,7 +33,7 @@ func SearchCitiesByName(raw string) ([]City, error) {
 
 	defer db.Close()
 
-	rows, err := db.Query("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
 	}

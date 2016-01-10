@@ -21,7 +21,7 @@ func FindStateById(state_id string) (*State, error) {
 		state := res[0]
 		return &state, nil
 	}
-	return nil, fmt.Errorf("[Analysis] unable to find state by state_id %s", state_id)
+	return nil, fmt.Errorf("[Storage] unable to find state by state_id %s", state_id)
 }
 
 func SearchStatesByName(raw string) ([]State, error) {

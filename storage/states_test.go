@@ -54,7 +54,7 @@ func TestReadWriteState(t *testing.T) {
 		t.Fatalf("didn't find single state because of error (err=%s)\n", err)
 	}
 
-	if single_state != nil {
+	if single_state == nil {
 		t.Fatalf("unable to find single state... (state_id = %s)", state.Id)
 	}
 }

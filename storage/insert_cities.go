@@ -46,25 +46,23 @@ func InsertRawCitiesFromStates() (int64, error) {
 			city_name := utils.StripQuotesAndTrim(row[CITY_NAME])
 			state_name := utils.StripQuotesAndTrim(row[STATE_INDEX])
 
-			existing, err := SearchCitiesByName(city_name)
-			if err != nil {
-				fmt.Printf("[Storage/insert] error reading city %s\n", city_name)
-				return 0, err
-			} else {
-				if len(existing) == 0 {
-					// states
-					for i := range states {
-						if state_name == states[i].Name {
-							// only insert city if we don't find one (and we find the state)
-							city := City{id, city_name, states[i].Id}
+			for i := range states {
+				if state_name == states[i].Name {
+					existing, err := SearchCitiesByNameAndState(city_name, states[i].Id)
+					if err != nil {
+						fmt.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
+						return 0, err
+					}
 
-							written := WriteCity(city)
-							if written != nil {
-								fmt.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
-								return 0, err
-							} else {
-								count = count + 1
-							}
+					if len(existing) == 0 {
+						// only insert city if we don't find one (and we find the state)
+						city := City{id, city_name, states[i].Id}
+						written := WriteCity(city)
+						if written != nil {
+							fmt.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
+							return 0, err
+						} else {
+							count = count + 1
 						}
 					}
 				}

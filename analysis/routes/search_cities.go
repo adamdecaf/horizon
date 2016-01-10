@@ -53,13 +53,22 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+var cached_states []storage.State
+
 func find_state(state_id string) (storage.State, error) {
+	for i := range cached_states {
+		if state_id == cached_states[i].Id {
+			return cached_states[i], nil
+		}
+	}
+
 	state, err := storage.FindStateById(state_id)
 	if err != nil {
 		return storage.State{}, err
 	}
 
 	if state != nil {
+		cached_states = append(cached_states, *state)
 		return *state, nil
 	}
 

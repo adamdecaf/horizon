@@ -14,13 +14,13 @@ func main() {
 	// Setup tables
 	storage.MigrateStorage()
 
-	// Start the analysis http server
-	go analysis.StartHttpServer()
-
 	// Insert base data
 	go storage.InsertData()
 
 	// spawn crawlers
 	go retrieval.SpawnNullCrawler()
 	go retrieval.SpawnRedditCrawler()
+
+	// Start the analysis http server
+	analysis.StartHttpServer()
 }

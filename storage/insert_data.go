@@ -58,7 +58,7 @@ func InsertRawData() {
 	if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
 		cities_count, err := InsertRawCitiesFromStates()
 		if err != nil {
-			fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+			fmt.Printf("[Storage/insert] Error when inserting raw city data (err=%s)\n", err)
 		} else {
 			fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
 		}

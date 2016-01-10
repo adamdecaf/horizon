@@ -11,6 +11,19 @@ type State struct {
 	Abbreviation string `json:"abbreviation"`
 }
 
+func FindStateById(state_id string) (*State, error) {
+	res, err := QueryStatesTable("select state_id, name, abbreviation from states where state_id=$1 limit 1;", state_id)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(res) > 0 {
+		state := res[0]
+		return &state, nil
+	}
+	return nil, fmt.Errorf("[Analysis] unable to find state by state_id %s", state_id)
+}
+
 func SearchStatesByName(raw string) ([]State, error) {
 	return QueryStatesTable("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 }

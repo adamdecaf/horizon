@@ -48,4 +48,13 @@ func TestReadWriteState(t *testing.T) {
 	if len(all_states) == 0 {
 		t.Fatalf("unable to find any states...")
 	}
+
+	single_state, err := FindStateById(state.Id)
+	if err != nil {
+		t.Fatalf("didn't find single state because of error (err=%s)\n", err)
+	}
+
+	if single_state != nil {
+		t.Fatalf("unable to find single state... (state_id = %s)", state.Id)
+	}
 }

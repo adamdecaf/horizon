@@ -14,6 +14,7 @@ export REDDIT_PASSWORD=""
 ## todo: Add a 'check' value which would insert only if there's no data in the table
 export INSERT_RAW_STATES=no
 export INSERT_RAW_CITIES=no
+export INSERT_RAW_COUNTRIES=no
 
 ## Start the postgres image
 docker-compose up -d postgres 2> /dev/null

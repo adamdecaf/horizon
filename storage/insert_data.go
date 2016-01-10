@@ -63,4 +63,13 @@ func InsertRawData() {
 			fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
 		}
 	}
+
+	if run := os.Getenv("INSERT_RAW_COUNTRIES"); run == "yes" {
+		countries_count, err := InsertCountries()
+		if err != nil {
+			fmt.Printf("[Storage/insert] Error when inserting country data (err=%s)\n", err)
+		} else {
+			fmt.Printf("[Storage/insret] Inserted %d countries\n", countries_count)
+		}
+	}
 }

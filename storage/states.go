@@ -8,6 +8,7 @@ import (
 type State struct {
 	Id string `json:"stateId"`
 	Name string `json:"name"`
+	Abbreviation string `json:"abbreviation"`
 }
 
 func SearchStatesByName(raw string) ([]State, error) {
@@ -15,24 +16,25 @@ func SearchStatesByName(raw string) ([]State, error) {
 
 	var id string
 	var name string
+	var abbreviation string
 
 	db, err := InitializeStorage()
 	if err != nil {
 		return nil, err
 	}
 
-	rows, err := db.Query("select state_id, name from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	rows, err := db.Query("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 	if err != nil {
 		return nil, err
 	}
 
 	defer rows.Close()
 	for rows.Next() {
-		err := rows.Scan(&id, &name)
+		err := rows.Scan(&id, &name, &abbreviation)
 		if err != nil {
 			fmt.Printf("[Storage] error getting state = %s\n", err)
 		}
-		states = append(states, State{id, name})
+		states = append(states, State{id, name, abbreviation})
 	}
 
 	err = rows.Err()
@@ -49,7 +51,10 @@ func WriteState(state State) *error {
 		return &err
 	}
 
-	result, err := db.Exec("insert into states (state_id, name) values ($1, $2)", state.Id, state.Name)
+	defer db.Close()
+
+	result, err := db.Exec("insert into states (state_id, name, abbreviation) values ($1, $2, $3)", state.Id, state.Name, state.Abbreviation)
+
 	if err != nil {
 		return &err
 	}

@@ -7,8 +7,16 @@ import (
 )
 
 func InsertData() {
-	fmt.Println("migrating storage")
+	fmt.Println("[Storage] migrating storage")
 
+	fmt.Println("[Storage] Running .sql insert scripts")
+	RunInsertScripts()
+
+	fmt.Println("[Storage] Inserting raw data")
+	InsertRawData()
+}
+
+func RunInsertScripts() {
 	table_name := "horizon_data_insert"
 
 	db, err := InitializeStorage()
@@ -34,4 +42,20 @@ func InsertData() {
 	}
 
 	fmt.Printf("Applied %d migrations!\n", n)
+}
+
+func InsertRawData() {
+	states, err := InsertRawStates()
+	if err != nil {
+		fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+	} else {
+		fmt.Printf("[Storage/insert] Inserted %d states\n", len(states))
+	}
+
+	cities_count, err := InsertRawCitiesFromStates(states)
+	if err != nil {
+		fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+	} else {
+		fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
+	}
 }

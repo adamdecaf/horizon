@@ -18,7 +18,8 @@ func TestReadWriteState(t *testing.T) {
 	}
 
 	id := utils.RandString(20)
-	state := State{id, name}
+	abbreviation := utils.RandString(2)
+	state := State{id, name, abbreviation}
 
 	if written := WriteState(state); written != nil {
 		t.Fatalf("error when writing state name=%s, err=%s", name, *written)

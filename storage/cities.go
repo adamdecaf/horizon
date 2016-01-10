@@ -51,6 +51,8 @@ func WriteCity(city City) *error {
 		return &err
 	}
 
+	defer db.Close()
+
 	result, err := db.Exec("insert into cities (city_id, name, state_id) values ($1, $2, $3)", city.Id, city.Name, city.StateId)
 	if err != nil {
 		return &err

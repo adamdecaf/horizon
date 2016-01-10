@@ -39,4 +39,13 @@ func TestReadWriteState(t *testing.T) {
 	} else {
 		t.Fatalf("found multiple states when we expected one name=%s", name)
 	}
+
+	all_states, err := ReadAllStates()
+	if err != nil {
+		t.Fatalf("not finding any states due to error (err=%s)\n", err)
+	}
+
+	if len(all_states) == 0 {
+		t.Fatalf("unable to find any states...")
+	}
 }

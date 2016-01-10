@@ -12,6 +12,14 @@ type State struct {
 }
 
 func SearchStatesByName(raw string) ([]State, error) {
+	return QueryStatesTable("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+}
+
+func ReadAllStates() ([]State, error) {
+	return QueryStatesTable("select state_id, name, abbreviation from states;")
+}
+
+func QueryStatesTable(base string, rest ...interface{}) ([]State, error) {
 	states := make([]State, 0)
 
 	var id string
@@ -23,7 +31,9 @@ func SearchStatesByName(raw string) ([]State, error) {
 		return nil, err
 	}
 
-	rows, err := db.Query("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	defer db.Close()
+
+	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
 	}

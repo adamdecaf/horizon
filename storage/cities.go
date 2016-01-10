@@ -23,6 +23,8 @@ func SearchCitiesByName(raw string) ([]City, error) {
 		return nil, err
 	}
 
+	defer db.Close()
+
 	rows, err := db.Query("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 	if err != nil {
 		return nil, err

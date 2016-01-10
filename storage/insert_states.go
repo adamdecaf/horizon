@@ -14,12 +14,12 @@ const (
 	STATE_ABBREVIATION = 1
 )
 
-func InsertRawStates() ([]State, error) {
-	var states []State
+func InsertRawStates() (int64, error) {
+	var count int64
 
 	file, err := os.Open("./storage/raw-data/states")
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
 	reader := csv.NewReader(bufio.NewReader(file))
@@ -42,7 +42,7 @@ func InsertRawStates() ([]State, error) {
 			existing, err := SearchStatesByName(name)
 			if err != nil {
 				fmt.Printf("[Storage/insert] error reading state %s\n", name)
-				return nil, err
+				return 0, err
 			} else {
 				if len(existing) == 0 {
 					// only insert state if we don't fine one already
@@ -50,14 +50,14 @@ func InsertRawStates() ([]State, error) {
 					written := WriteState(state)
 					if written != nil {
 						fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
-						return nil, err
+						return 0, err
 					} else {
-						states = append(states, state)
+						count = count + 1
 					}
 				}
 			}
 		}
 	}
 
-	return states, nil
+	return count, nil
 }

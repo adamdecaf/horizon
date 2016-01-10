@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/rubenv/sql-migrate"
 )
@@ -45,17 +46,21 @@ func RunInsertScripts() {
 }
 
 func InsertRawData() {
-	states, err := InsertRawStates()
-	if err != nil {
-		fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
-	} else {
-		fmt.Printf("[Storage/insert] Inserted %d states\n", len(states))
+	if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
+		states_count, err := InsertRawStates()
+		if err != nil {
+			fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+		} else {
+			fmt.Printf("[Storage/insert] Inserted %d states\n", states_count)
+		}
 	}
 
-	cities_count, err := InsertRawCitiesFromStates(states)
-	if err != nil {
-		fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
-	} else {
-		fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
+	if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
+		cities_count, err := InsertRawCitiesFromStates()
+		if err != nil {
+			fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+		} else {
+			fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
+		}
 	}
 }

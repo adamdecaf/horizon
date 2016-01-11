@@ -1,26 +1,34 @@
 <html>
   <head>
     <title>Horizon / analysis</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
       <h3>Horizon / analysis</h3>
     </header>
 
-    <section>
-      <h5>City Search</h5>
-      <div>
-        <input type="text" id="city" />
-        <input type="button" value="Search Cities" onclick="search_cities();" />
-      </div>
+    <section id="search-container">
+      <h5>Search</h5>
+
+      <strong>City: </strong>
+      <input type="text" id="city" />
+      <input type="button" value="Search Cities" onclick="search_cities();" />
     </section>
 
-    <script>
-      function search_cities() {
-        var name = document.querySelector("#city");
-        console.log('/cities?q=' + encodeURIComponent(name.value));
-        window.location.href = '/cities?q=' + encodeURIComponent(name.value);
-      }
-    </script>
+    <section id="results-container">
+      <section id="cities-search">
+        Cities:
+        <ul id="cities-list">
+          <li rv-each-citystate="cities">
+            <span>{ citystate.city.name }, { citystate.state.name }</span>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <script src="lib/jquery-2.2.0.min.js"></script>
+    <script src="lib/rivets.bundled.min.js"></script>
+    <script src="lib/app.js"></script>
   </body>
 </html>

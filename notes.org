@@ -23,3 +23,15 @@
  - interesting
    - CRDT's
      - github.com/soundcloud/roshi
+* incoming
+ - https://github.com/ivpusic/grpool
+ - https://github.com/albrow/jobs
+ - https://github.com/golang/mock
+ - https://github.com/dvyukov/go-fuzz
+ - https://github.com/dustin/go-humanize
+ - https://github.com/mvdan/xurls
+ - https://github.com/h2non/filetype
+ - https://github.com/beefsack/go-rate
+ - https://github.com/tylertreat/BoomFilters
+ - https://github.com/gocircuit/circuit
+ - https://github.com/ChimeraCoder/anaconda

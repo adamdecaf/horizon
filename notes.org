@@ -23,15 +23,23 @@
  - interesting
    - CRDT's
      - github.com/soundcloud/roshi
-* incoming
- - https://github.com/ivpusic/grpool
- - https://github.com/albrow/jobs
- - https://github.com/golang/mock
- - https://github.com/dvyukov/go-fuzz
- - https://github.com/dustin/go-humanize
- - https://github.com/mvdan/xurls
- - https://github.com/h2non/filetype
- - https://github.com/beefsack/go-rate
- - https://github.com/tylertreat/BoomFilters
- - https://github.com/gocircuit/circuit
- - https://github.com/ChimeraCoder/anaconda
+* search
+ - golang keyword:needle parsing library
+   - test cases, etc.
+     - city:'des moines'
+     - phone:5555555555
+* libraries
+ - async jobs
+   - https://github.com/mission-liao/dingo
+   - https://github.com/RichardKnop/machinery
+   - https://github.com/ivpusic/grpool
+   - https://github.com/albrow/jobs
+   - https://github.com/golang/mock
+   - https://github.com/dvyukov/go-fuzz
+   - https://github.com/dustin/go-humanize
+   - https://github.com/mvdan/xurls
+   - https://github.com/h2non/filetype
+   - https://github.com/beefsack/go-rate
+   - https://github.com/tylertreat/BoomFilters
+   - https://github.com/gocircuit/circuit
+   - https://github.com/ChimeraCoder/anaconda

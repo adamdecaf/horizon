@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/jzelinskie/geddit"
+	"github.com/adamdecaf/horizon/storage"
 )
 
 type RedditCrawler struct {
@@ -50,9 +51,22 @@ func (c RedditCrawler) Run() *error {
 
 func SpawnRedditCrawler() *error {
 	if run := os.Getenv("REDDIT_CRAWLER_ENABLED"); run == "yes" {
-		fmt.Println("[Spawn] RedditCrawler")
+		fmt.Printf("[Spawn] RedditCrawler (run=%s)\n", run)
 		crawler := RedditCrawler{}
 		return RunCrawler(crawler)
 	}
+
+	storage, err := storage.InitFileStorage()
+	if err != nil {
+		return &err
+	}
+
+	key, err := storage.Save(nil)
+	if err != nil {
+		return &err
+	}
+
+	fmt.Println("[Spawn] Reddit Crawler - key=" + key)
+
 	return nil
 }

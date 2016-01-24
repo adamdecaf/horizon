@@ -15,7 +15,6 @@ func StartHttpServer() {
 
 	// search routes
 	http.HandleFunc("/cities", routes.SearchCities)
-	http.HandleFunc("/humans", routes.SearchHumanNames)
 
 	err := http.ListenAndServe(":8080", nil)
 

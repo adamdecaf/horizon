@@ -13,7 +13,7 @@ func InsertData() {
 	fmt.Println("[Storage] Running .sql insert scripts")
 	RunInsertScripts()
 
-	fmt.Println("[Storage] Inserting raw data")
+	fmt.Println("[Storage] Starting raw data insert")
 	InsertRawData()
 }
 

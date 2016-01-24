@@ -7,21 +7,8 @@ import (
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/adamdecaf/horizon/storage"
 )
-
-type TwitterUser struct {
-	CreatedAt time.Time
-	Id string
-	Name string
-	ScreenName string
-}
-
-type BasicTweet struct {
-	CreatedAt time.Time
-	Id string
-	Text string
-	User TwitterUser
-}
 
 type TwitterPublicSampleCrawler struct {
 	Crawler
@@ -60,7 +47,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			fmt.Printf("bad resp gotten from twitter (%s)\n", tweet.Text)
 		} else {
 			// twitter user
-			twitter_user := TwitterUser{}
+			twitter_user := storage.TwitterUser{}
 
 			parsed_user_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.User.CreatedAt)
 
@@ -77,7 +64,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			fmt.Println(twitter_user)
 
 			// tweet
-			basic_tweet := BasicTweet{}
+			basic_tweet := storage.BasicTweet{}
 
 			parsed_tweet_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.CreatedAt)
 

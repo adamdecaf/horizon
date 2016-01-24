@@ -20,6 +20,7 @@ func main() {
 	// spawn crawlers
 	go retrieval.SpawnNullCrawler()
 	go retrieval.SpawnRedditCrawler()
+	go retrieval.SpawnTwitterPublicSampleCrawler()
 
 	// Start the analysis http server
 	analysis.StartHttpServer()

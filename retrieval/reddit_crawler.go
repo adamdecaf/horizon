@@ -26,7 +26,6 @@ func (c RedditCrawler) Run() *error {
 		return &err
 	}
 
-
 	options := geddit.ListingOptions{
 		Limit: 10,
 	}

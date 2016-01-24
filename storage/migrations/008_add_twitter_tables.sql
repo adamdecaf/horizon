@@ -2,6 +2,7 @@
 -- +migrate StatementBegin
 create table twitter_users(
        twitter_user_id varchar(36) primary key not null,
+       twitter_official_id varchar(36) not null,
        name varchar(256) not null,
        screen_name varchar(256) not null,
        created_at timestamp(0) not null
@@ -10,6 +11,7 @@ create table twitter_users(
 create table twitter_tweets(
        tweet_id varchar(36) primary key not null,
        twitter_user_id varchar(36) not null,
+       twitter_official_id varchar(36) not null,
        text varchar(160) not null,
        created_at timestamp(0) not null
 );

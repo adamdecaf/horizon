@@ -14,7 +14,6 @@ type TwitterUser struct {
 	Id string
 	Name string
 	ScreenName string
-	URL url.URL
 }
 
 type BasicTweet struct {
@@ -74,14 +73,6 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			twitter_user.Id = tweet.User.IdStr
 			twitter_user.Name = tweet.User.Name
 			twitter_user.ScreenName = tweet.User.ScreenName
-
-			parsed_user_url, err := url.Parse(tweet.User.URL)
-			if err != nil {
-				fmt.Printf("Error parsing url (value='%s') (err=%s)", tweet.User.URL, err)
-				continue
-			}
-
-			twitter_user.URL = *parsed_user_url
 
 			fmt.Println(twitter_user)
 

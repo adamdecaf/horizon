@@ -9,3 +9,4 @@ configs/osd/
 # horizon specifics
 horizon
 .horizon_*.sql
+/postgres-dump.sql

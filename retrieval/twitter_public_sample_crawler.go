@@ -44,9 +44,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 	for {
 		item := <-res.C
 		tweet, ok := item.(anaconda.Tweet)
-		if !ok {
-			fmt.Printf("bad resp gotten from twitter (%s)\n", tweet.Text)
-		} else {
+		if ok {
 			// twitter user
 			twitter_user := storage.TwitterUser{}
 

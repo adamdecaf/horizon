@@ -35,12 +35,13 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 
 	anaconda.SetConsumerKey(consumer_key)
 	anaconda.SetConsumerSecret(consumer_secret_key)
+
 	api := anaconda.NewTwitterApi(access_token, access_secret)
+	api.EnableThrottling(5 * time.Second, 5)
 
 	res := api.PublicStreamSample(url.Values{})
-	// api.SetDelay(5 * time.Second)
 
-	for i := 1; i <= 3; i++ {
+	for {
 		item := <-res.C
 		tweet, ok := item.(anaconda.Tweet)
 		if !ok {
@@ -52,7 +53,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			parsed_user_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.User.CreatedAt)
 
 			if err != nil {
-				fmt.Printf("Error parsing user date time (value='%s') (err=%s)", tweet.User.CreatedAt, err)
+				fmt.Printf("Error parsing user date time (value='%s') (err=%s)\n", tweet.User.CreatedAt, err)
 				continue
 			}
 
@@ -69,7 +70,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			parsed_tweet_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.CreatedAt)
 
 			if err != nil {
-				fmt.Printf("Error parsing tweet date time (value='%s') (err=%s)", tweet.CreatedAt, err)
+				fmt.Printf("Error parsing tweet date time (value='%s') (err=%s)\n", tweet.CreatedAt, err)
 				continue
 			}
 
@@ -79,6 +80,14 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			basic_tweet.User = twitter_user
 
 			fmt.Println(basic_tweet)
+
+			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
+				fmt.Printf("error while writing twitter tweet err=%s\n", *err)
+			}
+
+			if err := storage.WriteTwitterUser(twitter_user); err != nil {
+				fmt.Printf("error while writing twitter user err=%s\n", *err)
+			}
 		}
 	}
 

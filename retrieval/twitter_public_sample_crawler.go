@@ -62,7 +62,6 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			twitter_user.Name = tweet.User.Name
 			twitter_user.ScreenName = tweet.User.ScreenName
 
-			fmt.Println(twitter_user)
 
 			// tweet
 			basic_tweet := storage.BasicTweet{}
@@ -78,8 +77,6 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			basic_tweet.Id = tweet.IdStr
 			basic_tweet.Text = tweet.Text
 			basic_tweet.User = twitter_user
-
-			fmt.Println(basic_tweet)
 
 			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
 				fmt.Printf("error while writing twitter tweet err=%s\n", *err)

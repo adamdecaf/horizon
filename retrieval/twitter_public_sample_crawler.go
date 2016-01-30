@@ -37,7 +37,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 	anaconda.SetConsumerSecret(consumer_secret_key)
 
 	api := anaconda.NewTwitterApi(access_token, access_secret)
-	api.EnableThrottling(5 * time.Second, 5)
+	api.EnableThrottling(5 * time.Second, 20)
 
 	params := url.Values{}
 	params.Add("language", "en")

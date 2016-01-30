@@ -18,9 +18,7 @@ create index twitter_tweets_user_id_idx on twitter_tweets using btree(twitter_us
 create table twitter_tweet_urls(
        twitter_tweet_url_id varchar(36) primary key not null,
        tweet_id varchar(36) not null,
-       url varchar(1024) not null,
-       start_index smallint,
-       end_index smallint
+       url varchar(1024) not null
 );
 create index twitter_urls_tweet_id_idx on twitter_tweet_urls using btree(twitter_tweet_url_id);
 -- +migrate StatementEnd

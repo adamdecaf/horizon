@@ -3,6 +3,8 @@ package storage
 import (
 	"fmt"
 	"time"
+
+	"github.com/adamdecaf/horizon/utils"
 )
 
 type TwitterUser struct {
@@ -139,6 +141,35 @@ func WriteTwitterUser(user TwitterUser) *error {
 	if rows != 1 {
 		err := fmt.Errorf("[Storage] didn't insert twitter user as expected (rows=%s)\n", rows)
 		return &err
+	}
+
+	return nil
+}
+
+func WriteTwitterUrls(tweet_id string, urls []string) *error {
+	db, err := InitializeStorage()
+	if err != nil {
+		return &err
+	}
+
+	defer db.Close()
+
+	for i := range urls {
+		id := utils.UUID()
+		result, err := db.Exec("insert into twitter_tweet_urls (twitter_tweet_url_id, tweet_id, url) values ($1, $2, $3)", id, tweet_id, urls[i])
+		if err != nil {
+			return &err
+		}
+
+		rows, err := result.RowsAffected()
+		if err != nil {
+			return &err
+		}
+
+		if rows != 1 {
+			err := fmt.Errorf("[Storage] didn't insert twitter urls as expected (rows=%s)\n", rows)
+			return &err
+		}
 	}
 
 	return nil

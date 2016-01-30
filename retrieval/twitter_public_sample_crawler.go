@@ -8,6 +8,7 @@ import (
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/adamdecaf/horizon/storage"
+	"github.com/adamdecaf/horizon/parsing"
 )
 
 type TwitterPublicSampleCrawler struct {
@@ -81,11 +82,12 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 
 			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
 				fmt.Printf("error while writing twitter tweet err=%s\n", *err)
+
+				// ignore duplicates, so we don't check for failures
+				storage.WriteTwitterUser(twitter_user)
 			}
 
-			if err := storage.WriteTwitterUser(twitter_user); err != nil {
-				fmt.Printf("error while writing twitter user err=%s\n", *err)
-			}
+			go parsing.SpawnTwitterParsers(basic_tweet)
 		}
 	}
 

@@ -39,7 +39,10 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 	api := anaconda.NewTwitterApi(access_token, access_secret)
 	api.EnableThrottling(5 * time.Second, 5)
 
-	res := api.PublicStreamSample(url.Values{})
+	params := url.Values{}
+	params.Add("language", "en")
+
+	res := api.PublicStreamSample(params)
 
 	for {
 		item := <-res.C

@@ -43,3 +43,4 @@
    - https://github.com/tylertreat/BoomFilters
    - https://github.com/gocircuit/circuit
    - https://github.com/ChimeraCoder/anaconda
+   - https://stackoverflow.com/questions/16890648/how-can-i-use-golangs-compress-gzip-package-to-gzip-a-file

@@ -23,6 +23,12 @@
  - interesting
    - CRDT's
      - github.com/soundcloud/roshi
+* migrations
+ - need to move over to https://github.com/mattes/migrate instead of sql-migrate? (To support cassandra migrations also?)
+* cassandra
+ - projects
+   - https://github.com/adamdecaf/learn-cassandra
+   - https://github.com/gocql/gocql
 * search
  - golang keyword:needle parsing library
    - test cases, etc.
@@ -44,3 +50,5 @@
    - https://github.com/gocircuit/circuit
    - https://github.com/ChimeraCoder/anaconda
    - https://stackoverflow.com/questions/16890648/how-can-i-use-golangs-compress-gzip-package-to-gzip-a-file
+* todo
+ - switch over to Godeps or something

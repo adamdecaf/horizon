@@ -11,7 +11,7 @@ export REDDIT_USERNAME=adamdecaf
 export REDDIT_PASSWORD=""
 
 ## Twitter
-export TWITTER_CRAWLER_ENABLED=no
+export TWITTER_CRAWLER_ENABLED=yes
 export TWITTER_CONSUMER_KEY=""
 export TWITTER_CONSUMER_SECRET=""
 export TWITTER_ACCESS_TOKEN=""
@@ -19,9 +19,9 @@ export TWITTER_ACCESS_SECRET=""
 
 ## Insert data
 ## todo: Add a 'check' value which would insert only if there's no data in the table
-export INSERT_RAW_STATES=no
-export INSERT_RAW_CITIES=no
-export INSERT_RAW_COUNTRIES=no
+export INSERT_RAW_STATES=yes
+export INSERT_RAW_CITIES=yes
+export INSERT_RAW_COUNTRIES=yes
 
 ## Start the postgres image
 docker-compose up -d postgres 2> /dev/null

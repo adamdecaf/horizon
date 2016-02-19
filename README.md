@@ -4,4 +4,12 @@
 
 ## Dependencies
 
-- Run `get-deps.sh`
+- Run `./bin/get-deps.sh`
+
+## Running Tests
+
+- Run `./bin/run-tests.sh`
+
+## Running the app
+
+- Run `./bin/local-run.sh`

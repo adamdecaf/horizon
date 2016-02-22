@@ -14,10 +14,11 @@ import (
 func InitializeStorage() (*sql.DB, error) {
 	user := os.Getenv("STORAGE_USER")
 	password := os.Getenv("STORAGE_PASSWORD")
-	host := os.Getenv("STORAGE_USERNAME")
+	host := os.Getenv("STORAGE_HOSTNAME")
+	port := os.Getenv("STORAGE_PORT")
 	dbname := "horizon"
 
-	conn_string := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", user, password, host, dbname)
+	conn_string := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
 	db, err := sql.Open("postgres", conn_string)
 
 	if err != nil {

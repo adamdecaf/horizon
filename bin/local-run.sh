@@ -2,8 +2,9 @@
 
 ## Storage
 export STORAGE_USER=horizon
-export STORAGE_USERNAME=192.168.99.100
+export STORAGE_HOSTNAME=192.168.99.100
 export STORAGE_PASSWORD=e06b4ed2b382f68
+export STORAGE_PORT=5432
 
 ## Reddit
 export REDDIT_CRAWLER_ENABLED=no
@@ -18,7 +19,6 @@ export TWITTER_ACCESS_TOKEN=""
 export TWITTER_ACCESS_SECRET=""
 
 ## Insert data
-## todo: Add a 'check' value which would insert only if there's no data in the table
 export INSERT_RAW_STATES=yes
 export INSERT_RAW_CITIES=yes
 export INSERT_RAW_COUNTRIES=yes

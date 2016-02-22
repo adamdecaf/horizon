@@ -1,7 +1,5 @@
 # horizon notes
 * analysis
- - images
-   - github.com/koyachi/go-nude
  - text
    - github.com/blevesearch/bleve
    - github.com/neurosnap/sentences
@@ -52,3 +50,4 @@
    - https://stackoverflow.com/questions/16890648/how-can-i-use-golangs-compress-gzip-package-to-gzip-a-file
 * todo
  - switch over to Godeps or something
+ - store twitter tweets in cassandra

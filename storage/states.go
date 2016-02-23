@@ -39,7 +39,7 @@ func query_states(base string, rest ...interface{}) ([]State, error) {
 	var name string
 	var abbreviation string
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func query_states(base string, rest ...interface{}) ([]State, error) {
 }
 
 func WriteState(state State) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}

@@ -27,7 +27,7 @@ func SearchTwitterTweetsById(tweet_id string) (BasicTweet, error) {
 	var twitter_user_id string
 	var created_at time.Time
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return BasicTweet{}, err
 	}
@@ -64,7 +64,7 @@ func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 	var screen_name string
 	var created_at time.Time
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return TwitterUser{}, err
 	}
@@ -91,7 +91,7 @@ func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 }
 
 func WriteTwitterTweet(tweet BasicTweet) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}
@@ -115,7 +115,7 @@ func WriteTwitterTweet(tweet BasicTweet) *error {
 }
 
 func WriteTwitterUser(user TwitterUser) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}
@@ -139,7 +139,7 @@ func WriteTwitterUser(user TwitterUser) *error {
 }
 
 func WriteTwitterUrls(tweet_id string, urls []string) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}

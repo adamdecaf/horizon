@@ -18,7 +18,7 @@ func RunInsertScripts() {
 
 	table_name := "horizon_data_insert"
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		panic(err)
 	}

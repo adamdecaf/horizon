@@ -28,7 +28,7 @@ func query_hostnames(base string, rest ...interface{}) ([]Hostname, error) {
 	var id string
 	var value string
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func query_hostnames(base string, rest ...interface{}) ([]Hostname, error) {
 }
 
 func WriteHostname(hostname Hostname) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}

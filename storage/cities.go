@@ -26,7 +26,7 @@ func query_cities(base string, rest ...interface{}) ([]City, error) {
 	var name string
 	var stateId string
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func query_cities(base string, rest ...interface{}) ([]City, error) {
 }
 
 func WriteCity(city City) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}

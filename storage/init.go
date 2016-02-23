@@ -12,7 +12,7 @@ import (
 
 var db *sql.DB
 
-func InitializeStorage() (*sql.DB, error) {
+func InitializePostgres() (*sql.DB, error) {
 	// If we have a cache already use it
 	if db != nil {
 		return db, nil

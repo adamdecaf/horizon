@@ -14,7 +14,7 @@ func MigrateStorage() {
 		Dir: "storage/migrations/",
 	}
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		panic(err)
 	}

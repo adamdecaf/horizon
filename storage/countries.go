@@ -33,7 +33,7 @@ func query_countries(base string, rest ...interface{}) ([]Country, error) {
 	var id string
 	var name string
 
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func query_countries(base string, rest ...interface{}) ([]Country, error) {
 }
 
 func WriteCountry(country Country) *error {
-	db, err := InitializeStorage()
+	db, err := InitializePostgres()
 	if err != nil {
 		return &err
 	}

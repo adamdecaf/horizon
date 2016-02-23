@@ -14,12 +14,10 @@ const (
 	STATE_ABBREVIATION = 1
 )
 
-func InsertRawStates() (int64, error) {
-	var count int64
-
+func InsertRawStates() *error {
 	file, err := os.Open("./storage/raw-data/states")
 	if err != nil {
-		return 0, err
+		return & err
 	}
 
 	reader := csv.NewReader(bufio.NewReader(file))
@@ -35,29 +33,28 @@ func InsertRawStates() (int64, error) {
 		}
 
 		if row[STATE_NAME] != "" {
-			id := utils.UUID()
 			name := utils.StripQuotesAndTrim(row[STATE_NAME])
 			abbr := utils.StripQuotesAndTrim(row[STATE_ABBREVIATION])
-
-			existing, err := SearchStatesByName(name)
-			if err != nil {
-				fmt.Printf("[Storage/insert] error reading state %s\n", name)
-				return 0, err
-			} else {
-				if len(existing) == 0 {
-					// only insert state if we don't fine one already
-					state := State{id, name, abbr}
-					written := WriteState(state)
-					if written != nil {
-						fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
-						return 0, err
-					} else {
-						count = count + 1
-					}
-				}
-			}
+			go write_state(name, abbr)
 		}
 	}
 
-	return count, nil
+	return nil
+}
+
+func write_state(name string, abbr string) {
+	existing, err := SearchStatesByName(name)
+	if err != nil {
+		fmt.Printf("[Storage/insert] error reading state %s\n", name)
+		return
+	}
+	if len(existing) == 0 {
+		// only insert state if we don't fine one already
+		id := utils.UUID()
+		state := State{id, name, abbr}
+		written := WriteState(state)
+		if written != nil {
+			fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
+		}
+	}
 }

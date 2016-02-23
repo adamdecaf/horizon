@@ -47,11 +47,8 @@ func RunInsertScripts() {
 
 func InsertRawData() {
 	if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
-		states_count, err := InsertRawStates()
-		if err != nil {
+		if err := InsertRawStates(); err != nil {
 			fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
-		} else {
-			fmt.Printf("[Storage/insert] Inserted %d states\n", states_count)
 		}
 	}
 
@@ -68,11 +65,8 @@ func InsertRawData() {
 	}
 
 	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
-		hostnames_count, err := InsertHostnames()
-		if err != nil {
+		if err := InsertHostnames(); err != nil {
 			fmt.Printf("[Storage/insert] Error when inserting hostnames (err=%s)", err)
-		} else {
-			fmt.Printf("[Storage/insert Inserted %d hostnames\n", hostnames_count)
 		}
 	}
 }

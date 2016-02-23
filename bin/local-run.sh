@@ -22,8 +22,9 @@ export TWITTER_ACCESS_SECRET=""
 export INSERT_RAW_STATES=no
 export INSERT_RAW_CITIES=no
 export INSERT_RAW_COUNTRIES=no
+export INSERT_HOSTNAMES=no
 
-## Start the postgres image
+## Start the docker images
 docker-compose up -d postgres 2> /dev/null
 
 exec ./horizon

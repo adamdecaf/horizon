@@ -60,7 +60,7 @@ func InsertRawData() {
 		if err != nil {
 			fmt.Printf("[Storage/insert] Error when inserting raw city data (err=%s)\n", err)
 		} else {
-			fmt.Printf("[Storage/insret] Inserted %d cities\n", cities_count)
+			fmt.Printf("[Storage/insert] Inserted %d cities\n", cities_count)
 		}
 	}
 
@@ -69,7 +69,16 @@ func InsertRawData() {
 		if err != nil {
 			fmt.Printf("[Storage/insert] Error when inserting country data (err=%s)\n", err)
 		} else {
-			fmt.Printf("[Storage/insret] Inserted %d countries\n", countries_count)
+			fmt.Printf("[Storage/insert] Inserted %d countries\n", countries_count)
+		}
+	}
+
+	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
+		hostnames_count, err := InsertHostnames()
+		if err != nil {
+			fmt.Printf("[Storage/insert] Error when inserting hostnames (err=%s)", err)
+		} else {
+			fmt.Printf("[Storage/insert Inserted %d hostnames\n", hostnames_count)
 		}
 	}
 }

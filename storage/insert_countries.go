@@ -38,6 +38,7 @@ func write_country(name string) {
 	existing, err := SearchCountryByName(name)
 	if err != nil {
 		fmt.Printf("[storage] Error searching for country by name '%s'", name)
+		return
 	}
 
 	if len(existing) == 0 {

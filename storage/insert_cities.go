@@ -58,6 +58,7 @@ func write_city(city_name string, state_id string) {
 	existing, err := SearchCitiesByNameAndState(city_name, state_id)
 	if err != nil {
 		fmt.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
+		return
 	}
 
 	if len(existing) == 0 {

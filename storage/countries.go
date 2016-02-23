@@ -38,8 +38,6 @@ func QueryCountriesTable(base string, rest ...interface{}) ([]Country, error) {
 		return nil, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
@@ -67,8 +65,6 @@ func WriteCountry(country Country) *error {
 	if err != nil {
 		return &err
 	}
-
-	defer db.Close()
 
 	result, err := db.Exec("insert into countries (country_id, name) values ($1, $2)", country.Id, country.Name)
 

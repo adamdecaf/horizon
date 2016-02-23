@@ -31,8 +31,6 @@ func QueryCitiesTable(base string, rest ...interface{}) ([]City, error) {
 		return nil, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
@@ -60,8 +58,6 @@ func WriteCity(city City) *error {
 	if err != nil {
 		return &err
 	}
-
-	defer db.Close()
 
 	result, err := db.Exec("insert into cities (city_id, name, state_id) values ($1, $2, $3)", city.Id, city.Name, city.StateId)
 	if err != nil {

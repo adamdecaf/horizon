@@ -10,8 +10,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// todo: rename to database? postgres?
+var db *sql.DB
+
 func InitializeStorage() (*sql.DB, error) {
+	// If we have a cache already use it
+	if db != nil {
+		return db, nil
+	}
+
 	user := os.Getenv("STORAGE_USER")
 	password := os.Getenv("STORAGE_PASSWORD")
 	host := os.Getenv("STORAGE_HOSTNAME")
@@ -19,13 +25,15 @@ func InitializeStorage() (*sql.DB, error) {
 	dbname := "horizon"
 
 	conn_string := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
-	db, err := sql.Open("postgres", conn_string)
 
+	created, err := sql.Open("postgres", conn_string)
 	if err != nil {
 		LogConnString(conn_string, password)
 		log.Fatal(err)
 		return nil, err
 	}
+
+	db = created
 
 	return db, nil
 }

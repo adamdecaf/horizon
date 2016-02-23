@@ -44,8 +44,6 @@ func QueryStatesTable(base string, rest ...interface{}) ([]State, error) {
 		return nil, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
@@ -73,8 +71,6 @@ func WriteState(state State) *error {
 	if err != nil {
 		return &err
 	}
-
-	defer db.Close()
 
 	result, err := db.Exec("insert into states (state_id, name, abbreviation) values ($1, $2, $3)", state.Id, state.Name, state.Abbreviation)
 

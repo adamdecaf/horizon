@@ -33,8 +33,6 @@ func QueryHostnamesTable(base string, rest ...interface{}) ([]Hostname, error) {
 		return nil, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query(base, rest...)
 	if err != nil {
 		return nil, err
@@ -62,8 +60,6 @@ func WriteHostname(hostname Hostname) *error {
 	if err != nil {
 		return &err
 	}
-
-	defer db.Close()
 
 	result, err := db.Exec("insert into hostnames (hostname_id, value) values ($1, $2)", hostname.Id, hostname.Value)
 

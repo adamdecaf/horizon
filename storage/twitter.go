@@ -32,8 +32,6 @@ func SearchTwitterTweetsById(tweet_id string) (BasicTweet, error) {
 		return BasicTweet{}, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query("select tweet_id, twitter_user_id, text, created_at from twitter_tweets where tweet_id=$1 limit 1;", tweet_id)
 
 	if err != nil {
@@ -71,8 +69,6 @@ func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 		return TwitterUser{}, err
 	}
 
-	defer db.Close()
-
 	rows, err := db.Query("select twitter_user_id, name, screen_name, created_at from twitter_users where twitter_user_id=$1 limit 1;", twitter_user_id)
 
 	if err != nil {
@@ -100,8 +96,6 @@ func WriteTwitterTweet(tweet BasicTweet) *error {
 		return &err
 	}
 
-	defer db.Close()
-
 	result, err := db.Exec("insert into twitter_tweets (tweet_id, twitter_user_id, text, created_at) values ($1, $2, $3, $4)", tweet.Id, tweet.User.Id, tweet.Text, tweet.CreatedAt)
 	if err != nil {
 		return &err
@@ -126,8 +120,6 @@ func WriteTwitterUser(user TwitterUser) *error {
 		return &err
 	}
 
-	defer db.Close()
-
 	result, err := db.Exec("insert into twitter_users (twitter_user_id, name, screen_name, created_at) values ($1, $2, $3, $4)", user.Id, user.Name, user.ScreenName, user.CreatedAt)
 	if err != nil {
 		return &err
@@ -151,8 +143,6 @@ func WriteTwitterUrls(tweet_id string, urls []string) *error {
 	if err != nil {
 		return &err
 	}
-
-	defer db.Close()
 
 	for i := range urls {
 		id := utils.UUID()

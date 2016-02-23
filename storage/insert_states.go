@@ -6,7 +6,9 @@ import (
 	"io"
 	"fmt"
 	"os"
+
 	"github.com/adamdecaf/horizon/utils"
+	"github.com/ivpusic/grpool"
 )
 
 const (
@@ -14,7 +16,7 @@ const (
 	STATE_ABBREVIATION = 1
 )
 
-func InsertRawStates() *error {
+func InsertRawStates(pool grpool.Pool) *error {
 	file, err := os.Open("./storage/raw-data/states")
 	if err != nil {
 		return & err
@@ -35,26 +37,29 @@ func InsertRawStates() *error {
 		if row[STATE_NAME] != "" {
 			name := utils.StripQuotesAndTrim(row[STATE_NAME])
 			abbr := utils.StripQuotesAndTrim(row[STATE_ABBREVIATION])
-			go write_state(name, abbr)
+			go write_state(pool, name, abbr)
 		}
 	}
 
 	return nil
 }
 
-func write_state(name string, abbr string) {
-	existing, err := SearchStatesByName(name)
-	if err != nil {
-		fmt.Printf("[Storage/insert] error reading state %s\n", name)
-		return
-	}
-	if len(existing) == 0 {
-		// only insert state if we don't fine one already
-		id := utils.UUID()
-		state := State{id, name, abbr}
-		written := WriteState(state)
-		if written != nil {
-			fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
+func write_state(pool grpool.Pool, name string, abbr string) {
+	pool.JobQueue <- func() {
+		defer pool.JobDone()
+
+		existing, err := SearchStatesByName(name)
+		if err != nil {
+			fmt.Printf("[Storage/insert] error reading state %s\n", name)
+		}
+		if len(existing) == 0 {
+			// only insert state if we don't fine one already
+			id := utils.UUID()
+			state := State{id, name, abbr}
+			written := WriteState(state)
+			if written != nil {
+				fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
+			}
 		}
 	}
 }

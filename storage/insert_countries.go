@@ -5,10 +5,12 @@ import (
 	"io"
 	"fmt"
 	"os"
+
 	"github.com/adamdecaf/horizon/utils"
+	"github.com/ivpusic/grpool"
 )
 
-func InsertCountries() *error {
+func InsertCountries(pool grpool.Pool) *error {
 	file, err := os.Open("./storage/raw-data/countries")
 	if err != nil {
 		return &err
@@ -27,25 +29,28 @@ func InsertCountries() *error {
 		}
 
 		name := utils.StripQuotesAndTrim(row)
-		go write_country(name)
+		go write_country(pool, name)
 	}
 
 	return nil
 }
 
 
-func write_country(name string) {
-	existing, err := SearchCountryByName(name)
-	if err != nil {
-		fmt.Printf("[storage] Error searching for country by name '%s'", name)
-		return
-	}
+func write_country(pool grpool.Pool, name string) {
+	pool.JobQueue <- func() {
+		defer pool.JobDone()
 
-	if len(existing) == 0 {
-		id := utils.UUID()
-		written := WriteCountry(Country{id, name})
-		if written != nil {
-			fmt.Printf("[Storage] error inserting country id=%s, name=%s, err=%s\n", id, name, *written)
+		existing, err := SearchCountryByName(name)
+		if err != nil {
+			fmt.Printf("[storage] Error searching for country by name '%s'", name)
+		}
+
+		if len(existing) == 0 {
+			id := utils.UUID()
+			written := WriteCountry(Country{id, name})
+			if written != nil {
+				fmt.Printf("[Storage] error inserting country id=%s, name=%s, err=%s\n", id, name, *written)
+			}
 		}
 	}
 }

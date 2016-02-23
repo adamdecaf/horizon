@@ -6,7 +6,9 @@ import (
 	"io"
 	"fmt"
 	"os"
+
 	"github.com/adamdecaf/horizon/utils"
+	"github.com/ivpusic/grpool"
 )
 
 const (
@@ -14,9 +16,7 @@ const (
 	STATE_INDEX = 1
 )
 
-func InsertRawCitiesFromStates() *error {
-	fmt.Println("insert cities")
-
+func InsertRawCitiesFromStates(pool grpool.Pool) *error {
 	states, err := ReadAllStates()
 	if err != nil {
 		return &err
@@ -45,7 +45,7 @@ func InsertRawCitiesFromStates() *error {
 
 			for i := range states {
 				if state_name == states[i].Name {
-					go write_city(city_name, states[i].Id)
+					go write_city(pool, city_name, states[i].Id)
 				}
 			}
 		}
@@ -54,20 +54,23 @@ func InsertRawCitiesFromStates() *error {
 	return nil
 }
 
-func write_city(city_name string, state_id string) {
-	existing, err := SearchCitiesByNameAndState(city_name, state_id)
-	if err != nil {
-		fmt.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
-		return
-	}
+func write_city(pool grpool.Pool, city_name string, state_id string) {
+	pool.JobQueue <- func() {
+		defer pool.JobDone()
 
-	if len(existing) == 0 {
-		// only insert city if we don't find one (and we find the state)
-		id := utils.UUID()
-		city := City{id, city_name, state_id}
-		written := WriteCity(city)
-		if written != nil {
-			fmt.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
+		existing, err := SearchCitiesByNameAndState(city_name, state_id)
+		if err != nil {
+			fmt.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
+		}
+
+		if len(existing) == 0 {
+			// only insert city if we don't find one (and we find the state)
+			id := utils.UUID()
+			city := City{id, city_name, state_id}
+			written := WriteCity(city)
+			if written != nil {
+				fmt.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
+			}
 		}
 	}
 }

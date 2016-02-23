@@ -4,20 +4,18 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ivpusic/grpool"
 	"github.com/rubenv/sql-migrate"
 )
 
 func InsertData() {
-	fmt.Println("[Storage] migrating storage")
-
-	fmt.Println("[Storage] Running .sql insert scripts")
 	RunInsertScripts()
-
-	fmt.Println("[Storage] Starting raw data insert")
 	InsertRawData()
 }
 
 func RunInsertScripts() {
+	fmt.Println("[Storage] Running .sql insert scripts")
+
 	table_name := "horizon_data_insert"
 
 	db, err := InitializeStorage()
@@ -46,27 +44,42 @@ func RunInsertScripts() {
 }
 
 func InsertRawData() {
-	if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
-		if err := InsertRawStates(); err != nil {
-			fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
-		}
-	}
+	fmt.Println("[Storage] Starting raw data insert")
 
-	if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
-		if err := InsertRawCitiesFromStates(); err != nil {
-			fmt.Printf("[Storage/insert] Error when inserting raw city data (err=%s)\n", err)
-		}
-	}
+	// number of workers, and size of job queue
+	pool := grpool.NewPool(10, 10 * 1000 * 1000)
 
-	if run := os.Getenv("INSERT_RAW_COUNTRIES"); run == "yes" {
-		if err := InsertCountries(); err != nil {
-			fmt.Printf("[Storage/insert] Error when inserting country data (err=%s)\n", err)
-		}
-	}
+	defer pool.Release()
 
-	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
-		if err := InsertHostnames(); err != nil {
-			fmt.Printf("[Storage/insert] Error when inserting hostnames (err=%s)", err)
+	if pool == nil {
+		fmt.Println("[storage] worker pool is nil")
+	} else {
+		pool.WaitCount(10)
+
+		if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
+			if err := InsertRawStates(*pool); err != nil {
+				fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+			}
 		}
+
+		if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
+			if err := InsertRawCitiesFromStates(*pool); err != nil {
+				fmt.Printf("[Storage/insert] Error when inserting raw city data (err=%s)\n", err)
+			}
+		}
+
+		if run := os.Getenv("INSERT_RAW_COUNTRIES"); run == "yes" {
+			if err := InsertCountries(*pool); err != nil {
+				fmt.Printf("[Storage/insert] Error when inserting country data (err=%s)\n", err)
+			}
+		}
+
+		if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
+			if err := InsertHostnames(*pool); err != nil {
+				fmt.Printf("[Storage/insert] Error when inserting hostnames (err=%s)", err)
+			}
+		}
+
+		pool.WaitAll()
 	}
 }

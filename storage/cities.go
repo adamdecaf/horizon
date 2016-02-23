@@ -12,14 +12,14 @@ type City struct {
 }
 
 func SearchCitiesByNameAndState(city_name string, state_id string) ([]City, error) {
-	return QueryCitiesTable("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%' and state_id = $2;", strings.ToLower(city_name), state_id)
+	return query_cities("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%' and state_id = $2;", strings.ToLower(city_name), state_id)
 }
 
 func SearchCitiesByName(raw string) ([]City, error) {
-	return QueryCitiesTable("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	return query_cities("select city_id, name, state_id from cities where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 }
 
-func QueryCitiesTable(base string, rest ...interface{}) ([]City, error) {
+func query_cities(base string, rest ...interface{}) ([]City, error) {
 	cities := make([]City, 0)
 
 	var id string

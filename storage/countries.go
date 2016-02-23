@@ -11,7 +11,7 @@ type Country struct {
 }
 
 func FindCountryById(country_id string) (*Country, error) {
-	res, err := QueryCountriesTable("select country_id, name from countries where country_id = $1", country_id)
+	res, err := query_countries("select country_id, name from countries where country_id = $1", country_id)
 	if err != nil {
 		return nil, err
 	}
@@ -24,10 +24,10 @@ func FindCountryById(country_id string) (*Country, error) {
 }
 
 func SearchCountryByName(raw string) ([]Country, error) {
-	return QueryCountriesTable("select country_id, name from countries where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	return query_countries("select country_id, name from countries where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 }
 
-func QueryCountriesTable(base string, rest ...interface{}) ([]Country, error) {
+func query_countries(base string, rest ...interface{}) ([]Country, error) {
 	countries := make([]Country, 0)
 
 	var id string

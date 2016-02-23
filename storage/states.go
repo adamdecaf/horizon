@@ -12,7 +12,7 @@ type State struct {
 }
 
 func FindStateById(state_id string) (*State, error) {
-	res, err := QueryStatesTable("select state_id, name, abbreviation from states where state_id=$1 limit 1;", state_id)
+	res, err := query_states("select state_id, name, abbreviation from states where state_id=$1 limit 1;", state_id)
 	if err != nil {
 		return nil, err
 	}
@@ -25,14 +25,14 @@ func FindStateById(state_id string) (*State, error) {
 }
 
 func SearchStatesByName(raw string) ([]State, error) {
-	return QueryStatesTable("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
+	return query_states("select state_id, name, abbreviation from states where lower(name) like '%' || $1 || '%';", strings.ToLower(raw))
 }
 
 func ReadAllStates() ([]State, error) {
-	return QueryStatesTable("select state_id, name, abbreviation from states;")
+	return query_states("select state_id, name, abbreviation from states;")
 }
 
-func QueryStatesTable(base string, rest ...interface{}) ([]State, error) {
+func query_states(base string, rest ...interface{}) ([]State, error) {
 	states := make([]State, 0)
 
 	var id string

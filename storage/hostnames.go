@@ -10,7 +10,7 @@ type Hostname struct {
 }
 
 func SearchHostnameByValue(value string) (Hostname, error) {
-	res, err := QueryHostnamesTable("select hostname_id, value from hostnames where value=$1 limit 1;", value)
+	res, err := query_hostnames("select hostname_id, value from hostnames where value=$1 limit 1;", value)
 	if err != nil {
 		return Hostname{}, err
 	}
@@ -22,7 +22,7 @@ func SearchHostnameByValue(value string) (Hostname, error) {
 	return Hostname{}, fmt.Errorf("[Storage] unable to find hostname by value %s", value)
 }
 
-func QueryHostnamesTable(base string, rest ...interface{}) ([]Hostname, error) {
+func query_hostnames(base string, rest ...interface{}) ([]Hostname, error) {
 	hostnames := make([]Hostname, 0)
 
 	var id string

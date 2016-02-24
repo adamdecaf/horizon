@@ -1,5 +1,7 @@
 # horizon notes
 * analysis
+ - images
+   - https://github.com/rwcarlsen/goexif
  - text
    - github.com/blevesearch/bleve
    - github.com/neurosnap/sentences

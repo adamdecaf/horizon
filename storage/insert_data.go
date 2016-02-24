@@ -9,11 +9,11 @@ import (
 )
 
 func InsertData() {
-	RunInsertScripts()
-	InsertRawData()
+	run_insert_scripts()
+	insert_raw_data()
 }
 
-func RunInsertScripts() {
+func run_insert_scripts() {
 	fmt.Println("[Storage] Running .sql insert scripts")
 
 	table_name := "horizon_data_insert"
@@ -43,7 +43,7 @@ func RunInsertScripts() {
 	fmt.Printf("Applied %d migrations!\n", n)
 }
 
-func InsertRawData() {
+func insert_raw_data() {
 	fmt.Println("[Storage] Starting raw data insert")
 
 	// number of workers, and size of job queue

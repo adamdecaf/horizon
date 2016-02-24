@@ -18,9 +18,7 @@ func main() {
 	go storage.InsertData()
 
 	// spawn crawlers
-	go retrieval.SpawnNullCrawler()
-	go retrieval.SpawnRedditCrawler()
-	go retrieval.SpawnTwitterPublicSampleCrawler()
+	go retrieval.SpawnCrawlers()
 
 	// Start the analysis http server
 	analysis.StartHttpServer()

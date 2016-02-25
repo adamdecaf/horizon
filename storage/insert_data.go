@@ -11,6 +11,7 @@ import (
 func InsertData() {
 	run_insert_scripts()
 	insert_raw_data()
+	insert_gzipped_sql()
 }
 
 func run_insert_scripts() {
@@ -58,28 +59,32 @@ func insert_raw_data() {
 
 		if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
 			if err := InsertRawStates(*pool); err != nil {
-				fmt.Printf("[Storage/insert] Error when inserting raw state data (err=%s)\n", err)
+				fmt.Printf("[Storage] Error when inserting raw state data (err=%s)\n", err)
 			}
 		}
 
 		if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
 			if err := InsertRawCitiesFromStates(*pool); err != nil {
-				fmt.Printf("[Storage/insert] Error when inserting raw city data (err=%s)\n", err)
+				fmt.Printf("[Storage] Error when inserting raw city data (err=%s)\n", err)
 			}
 		}
 
 		if run := os.Getenv("INSERT_RAW_COUNTRIES"); run == "yes" {
 			if err := InsertCountries(*pool); err != nil {
-				fmt.Printf("[Storage/insert] Error when inserting country data (err=%s)\n", err)
-			}
-		}
-
-		if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
-			if err := InsertHostnames(*pool); err != nil {
-				fmt.Printf("[Storage/insert] Error when inserting hostnames (err=%s)", err)
+				fmt.Printf("[Storage] Error when inserting country data (err=%s)\n", err)
 			}
 		}
 
 		pool.WaitAll()
+	}
+}
+
+func insert_gzipped_sql() {
+	fmt.Printf("[storage] Inserting gzipped sql files\n")
+
+	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
+		if ok := ExecuteGzippedSQL("storage/raw-data/top-1m-hostnames.sql.gz"); ok != nil {
+			fmt.Printf("[storage] Error when inserting top 1m hostnames from .sql")
+		}
 	}
 }

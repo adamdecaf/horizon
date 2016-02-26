@@ -9,9 +9,9 @@ import (
 )
 
 func InsertData() {
-	run_insert_scripts()
-	insert_raw_data()
-	insert_gzipped_sql()
+	go run_insert_scripts()
+	go insert_raw_data()
+	go insert_gzipped_sql()
 }
 
 func run_insert_scripts() {

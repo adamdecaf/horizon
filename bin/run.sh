@@ -12,11 +12,10 @@ export REDDIT_USERNAME=adamdecaf
 export REDDIT_PASSWORD=""
 
 ## Twitter
-export TWITTER_CRAWLER_ENABLED=yes
+export TWITTER_CRAWLER_ENABLED=no
 export TWITTER_CONSUMER_KEY=""
 export TWITTER_CONSUMER_SECRET=""
 export TWITTER_ACCESS_TOKEN=""
-export TWITTER_ACCESS_SECRET=""
 
 ## Insert data
 export INSERT_RAW_STATES=no

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -47,7 +48,7 @@ func query_countries(base string, rest ...interface{}) ([]Country, error) {
 	for rows.Next() {
 		err := rows.Scan(&id, &name)
 		if err != nil {
-			fmt.Printf("[Storage] error getting country = %s\n", err)
+			log.Printf("[Storage] error getting country = %s\n", err)
 		}
 		countries = append(countries, Country{id, name})
 	}

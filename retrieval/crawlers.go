@@ -1,11 +1,11 @@
 package retrieval
 
 import (
-	"fmt"
+	"log"
 )
 
 func SpawnCrawlers() {
-	fmt.Println("[retrieval] Spawning crawlers")
+	log.Println("[retrieval] Spawning crawlers")
 
 	go SpawnNullCrawler()
 	go SpawnRedditCrawler()

@@ -1,8 +1,7 @@
 package parsing
 
 import (
-	"fmt"
-
+	"log"
 	"github.com/adamdecaf/horizon/storage"
 )
 
@@ -12,7 +11,7 @@ func SpawnTwitterParsers(tweet storage.BasicTweet) *error {
 	// find urls
 	urls, err := url_parser.Parse(tweet.Text)
 	if err != nil {
-		fmt.Printf("Error when parsing tweet err=%s\n", err)
+		log.Printf("Error when parsing tweet err=%s\n", err)
 		return &err
 	}
 

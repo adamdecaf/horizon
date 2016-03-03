@@ -3,6 +3,7 @@ package retrieval
 import (
 	"fmt"
 	"net/url"
+	"log"
 	"os"
 	"time"
 
@@ -16,7 +17,7 @@ type TwitterPublicSampleCrawler struct {
 }
 
 func (c TwitterPublicSampleCrawler) Run() *error {
-	fmt.Println("TwitterPublicSampleCrawler")
+	log.Println("TwitterPublicSampleCrawler")
 
 	consumer_key := os.Getenv("TWITTER_CONSUMER_KEY")
 	consumer_secret_key := os.Getenv("TWITTER_CONSUMER_SECRET")
@@ -55,7 +56,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			parsed_user_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.User.CreatedAt)
 
 			if err != nil {
-				fmt.Printf("Error parsing user date time (value='%s') (err=%s)\n", tweet.User.CreatedAt, err)
+				log.Printf("Error parsing user date time (value='%s') (err=%s)\n", tweet.User.CreatedAt, err)
 				continue
 			}
 
@@ -71,7 +72,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			parsed_tweet_time, err := time.Parse("Mon Jan 2 15:04:05 -0700 2006", tweet.CreatedAt)
 
 			if err != nil {
-				fmt.Printf("Error parsing tweet date time (value='%s') (err=%s)\n", tweet.CreatedAt, err)
+				log.Printf("Error parsing tweet date time (value='%s') (err=%s)\n", tweet.CreatedAt, err)
 				continue
 			}
 
@@ -81,7 +82,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			basic_tweet.User = twitter_user
 
 			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
-				fmt.Printf("error while writing twitter tweet err=%s\n", *err)
+				log.Printf("error while writing twitter tweet err=%s\n", *err)
 
 				// ignore duplicates, so we don't check for failures
 				storage.WriteTwitterUser(twitter_user)
@@ -96,7 +97,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 
 func SpawnTwitterPublicSampleCrawler() *error {
 	if run := os.Getenv("TWITTER_CRAWLER_ENABLED"); run == "yes" {
-		fmt.Println("[Spawn] creating TwitterPublicSampleCrawler")
+		log.Println("[Spawn] creating TwitterPublicSampleCrawler")
 		crawler := TwitterPublicSampleCrawler{}
 		return RunCrawler(crawler)
 	}

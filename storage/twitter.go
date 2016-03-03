@@ -2,8 +2,8 @@ package storage
 
 import (
 	"fmt"
+	"log"
 	"time"
-
 	"github.com/adamdecaf/horizon/utils"
 )
 
@@ -43,7 +43,7 @@ func SearchTwitterTweetsById(tweet_id string) (BasicTweet, error) {
 	for rows.Next() {
 		err = rows.Scan(&id, &twitter_user_id, &text, &created_at)
 		if err != nil {
-			fmt.Printf("[Storage] error getting tweet = %s\n", err)
+			log.Printf("[Storage] error getting tweet = %s\n", err)
 			return BasicTweet{}, err
 		}
 
@@ -80,7 +80,7 @@ func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 	for rows.Next() {
 		err = rows.Scan(&id, &name, &screen_name, &created_at)
 		if err != nil {
-			fmt.Printf("[Storage] error getting twitter user = %s\n", err)
+			log.Printf("[Storage] error getting twitter user = %s\n", err)
 			return TwitterUser{}, err
 		}
 

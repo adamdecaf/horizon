@@ -3,7 +3,6 @@ package storage
 import (
 	"time"
 	"testing"
-
 	"github.com/adamdecaf/horizon/utils"
 )
 

@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"fmt"
+	"log"
 )
 
 type FileStorage interface {
@@ -18,6 +18,6 @@ type LocalFileStorage struct {
 }
 
 func (f LocalFileStorage) Save([]byte) (string, error) {
-	fmt.Println("[Storage] save to LocalFileStorage")
+	log.Println("[Storage] save to LocalFileStorage")
 	return "", nil
 }

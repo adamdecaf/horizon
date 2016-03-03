@@ -39,5 +39,5 @@ func InitializePostgres() (*sql.DB, error) {
 }
 
 func LogConnString(conn_str string, password string) {
-	fmt.Println(strings.Replace(conn_str, password, "--password--", 1))
+	log.Println(strings.Replace(conn_str, password, "--password--", 1))
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/adamdecaf/horizon/analysis"
 	"github.com/adamdecaf/horizon/retrieval"
@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting horizon")
+	log.Println("Starting horizon")
 
 	// Setup tables
 	storage.MigrateStorage()

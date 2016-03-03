@@ -1,7 +1,7 @@
 package parsing
 
 import(
-	"fmt"
+	"log"
 )
 
 type NullSingleParser struct {
@@ -9,7 +9,7 @@ type NullSingleParser struct {
 }
 
 func (p NullSingleParser) Parse(input string) (string, error) {
-	fmt.Printf("NullSingleParser.Run() -- input=%s\n", input)
+	log.Printf("NullSingleParser.Run() -- input=%s\n", input)
 	return "", nil
 }
 
@@ -18,6 +18,6 @@ type NullMultiParser struct {
 }
 
 func (p NullMultiParser) Parse(input string) ([]string, error) {
-	fmt.Printf("NullMultiParser.Run() -- input=%s\n", input)
+	log.Printf("NullMultiParser.Run() -- input=%s\n", input)
 	return nil, nil
 }

@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"encoding/csv"
 	"io"
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/adamdecaf/horizon/utils"
@@ -50,7 +50,7 @@ func write_state(pool grpool.Pool, name string, abbr string) {
 
 		existing, err := SearchStatesByName(name)
 		if err != nil {
-			fmt.Printf("[Storage/insert] error reading state %s\n", name)
+			log.Printf("[Storage/insert] error reading state %s\n", name)
 		}
 		if len(existing) == 0 {
 			// only insert state if we don't fine one already
@@ -58,7 +58,7 @@ func write_state(pool grpool.Pool, name string, abbr string) {
 			state := State{id, name, abbr}
 			written := WriteState(state)
 			if written != nil {
-				fmt.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
+				log.Printf("[Storage] error inserting raw state %s, %s, %s, (err=%s)\n", id, name, abbr, *written)
 			}
 		}
 	}

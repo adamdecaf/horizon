@@ -1,14 +1,13 @@
 package storage
 
 import (
-	"fmt"
-
+	"log"
 	_ "github.com/lib/pq"
 	"github.com/rubenv/sql-migrate"
 )
 
 func MigrateStorage() {
-	fmt.Println("migrating storage")
+	log.Println("migrating storage")
 
 	migrations := &migrate.FileMigrationSource{
 		Dir: "storage/migrations/",
@@ -24,5 +23,5 @@ func MigrateStorage() {
 		panic(err)
 	}
 
-	fmt.Printf("Applied %d migrations!\n", n)
+	log.Printf("Applied %d migrations!\n", n)
 }

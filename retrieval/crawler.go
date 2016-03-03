@@ -1,7 +1,7 @@
 package retrieval
 
 import (
-	"fmt"
+	"log"
 )
 
 type Crawler interface {
@@ -10,7 +10,7 @@ type Crawler interface {
 
 func RunCrawler(crawler Crawler) *error {
 	if err := crawler.Run(); err != nil {
-		fmt.Println(err)
+		log.Print("error in crawler run err=%s\n", err)
 		return err
 	}
 	return nil

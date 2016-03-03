@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -53,7 +54,7 @@ func query_states(base string, rest ...interface{}) ([]State, error) {
 	for rows.Next() {
 		err := rows.Scan(&id, &name, &abbreviation)
 		if err != nil {
-			fmt.Printf("[Storage] error getting state = %s\n", err)
+			log.Printf("[Storage] error getting state = %s\n", err)
 		}
 		states = append(states, State{id, name, abbreviation})
 	}

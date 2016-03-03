@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"encoding/csv"
 	"io"
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/adamdecaf/horizon/utils"
@@ -60,7 +60,7 @@ func write_city(pool grpool.Pool, city_name string, state_id string) {
 
 		existing, err := SearchCitiesByNameAndState(city_name, state_id)
 		if err != nil {
-			fmt.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
+			log.Printf("[Storage/insert] error reading city %s (err=%s)\n", city_name, err)
 		}
 
 		if len(existing) == 0 {
@@ -69,7 +69,7 @@ func write_city(pool grpool.Pool, city_name string, state_id string) {
 			city := City{id, city_name, state_id}
 			written := WriteCity(city)
 			if written != nil {
-				fmt.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
+				log.Printf("[Storage] error inserting raw city %s, %s, (err=%s)\n", id, city_name, *written)
 			}
 		}
 	}

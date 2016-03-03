@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"log"
 
 	"github.com/adamdecaf/horizon/storage"
 )
@@ -24,7 +25,7 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 	if query != "" {
 		cities, err := storage.SearchCitiesByName(query)
 		if err != nil {
-			fmt.Printf("[Analysis] error getting cities param='%s' err='%s'\n", query, err)
+			log.Printf("[Analysis] error getting cities param='%s' err='%s'\n", query, err)
 			w.WriteHeader(503)
 			return
 		}
@@ -32,7 +33,7 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 		for i := range cities {
 			state, err := find_state(cities[i].StateId)
 			if err != nil {
-				fmt.Printf("[Analysis] error finding state from cache param='%s' err='%s'\n", query, err)
+				log.Printf("[Analysis] error finding state from cache param='%s' err='%s'\n", query, err)
 				w.WriteHeader(503)
 				return
 			}
@@ -42,7 +43,7 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 
 		res, err := json.Marshal(CityResult{results})
 		if err != nil {
-			fmt.Printf("[Analysis] error marshalling cities param='%s' err='%s'\n", query, err)
+			log.Printf("[Analysis] error marshalling cities param='%s' err='%s'\n", query, err)
 			w.WriteHeader(503)
 		} else {
 			w.Write(res)

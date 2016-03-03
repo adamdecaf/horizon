@@ -3,7 +3,7 @@ package storage
 import (
 	"bufio"
 	"io"
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/adamdecaf/horizon/utils"
@@ -42,14 +42,14 @@ func write_country(pool grpool.Pool, name string) {
 
 		existing, err := SearchCountryByName(name)
 		if err != nil {
-			fmt.Printf("[storage] Error searching for country by name '%s'", name)
+			log.Printf("[storage] Error searching for country by name '%s'", name)
 		}
 
 		if len(existing) == 0 {
 			id := utils.UUID()
 			written := WriteCountry(Country{id, name})
 			if written != nil {
-				fmt.Printf("[Storage] error inserting country id=%s, name=%s, err=%s\n", id, name, *written)
+				log.Printf("[Storage] error inserting country id=%s, name=%s, err=%s\n", id, name, *written)
 			}
 		}
 	}

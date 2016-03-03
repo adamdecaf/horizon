@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"log"
 )
 
 type Hostname struct {
@@ -42,7 +43,7 @@ func query_hostnames(base string, rest ...interface{}) ([]Hostname, error) {
 	for rows.Next() {
 		err := rows.Scan(&id, &value)
 		if err != nil {
-			fmt.Printf("[Storage] error getting hostname = %s\n", err)
+			log.Printf("[Storage] error getting hostname = %s\n", err)
 		}
 		hostnames = append(hostnames, Hostname{id, value})
 	}

@@ -1,6 +1,7 @@
 package metrics
 
 import (
+        "log"
 	"os"
 	"sync"
 	"time"
@@ -25,12 +26,14 @@ func Meter(name string) metrics.Meter {
 }
 
 func report_metrics_to_stdout() {
+        log.Println("reporting metrics to stdout")
 	out := os.Stdout
 	metrics.WriteOnce(registry, out)
 }
 
 func InitializeStdoutReporter() {
 	if run := os.Getenv("STDOUT_REPORTING_ENABLED"); run == "yes" {
+                log.Println("starting stdout metrics reporting")
 		t := time.Tick(1 * time.Minute)
 		for _ = range t {
 			report_metrics_to_stdout()

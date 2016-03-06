@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/adamdecaf/horizon/analysis"
+	"github.com/adamdecaf/horizon/metrics"
 	"github.com/adamdecaf/horizon/retrieval"
 	"github.com/adamdecaf/horizon/storage"
 )
@@ -19,6 +20,9 @@ func main() {
 
 	// spawn crawlers
 	go retrieval.SpawnCrawlers()
+
+	// Start stdout reporting
+	go metrics.InitializeStdoutReporter()
 
 	// Start the analysis http server
 	analysis.StartHttpServer()

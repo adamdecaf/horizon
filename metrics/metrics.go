@@ -8,7 +8,7 @@ import (
 	metrics "github.com/rcrowley/go-metrics"
 )
 
-var registry metrics.Registry = metrics.NewRegistry()
+var registry metrics.Registry = metrics.DefaultRegistry
 
 var mu sync.Mutex
 var meters map[string]metrics.Meter = make(map[string]metrics.Meter)
@@ -34,9 +34,6 @@ func report_metrics_to_stdout() {
 func InitializeStdoutReporter() {
 	if run := os.Getenv("STDOUT_REPORTING_ENABLED"); run == "yes" {
                 log.Println("starting stdout metrics reporting")
-		t := time.Tick(1 * time.Minute)
-		for _ = range t {
-			report_metrics_to_stdout()
-		}
+                go metrics.Log(metrics.DefaultRegistry, 1 * time.Minute, log.New(os.Stderr, "metrics: ", log.Lmicroseconds))
 	}
 }

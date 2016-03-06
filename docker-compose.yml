@@ -14,3 +14,19 @@ postgres:
   volumes:
     - /var/lib/postgresql/data/:/var/lib/postgresql/data/
     - /var/log/postgresql/:/var/log/postgresql/
+
+## Metrics
+
+influxdb1:
+  image: tutum/influxdb
+  ports: 
+   - "8083:8083"
+   - "8086:8086"
+
+grafana:
+  image: grafana/grafana
+  ports:
+   - "3000:3000"
+  links:
+   - influxdb1
+

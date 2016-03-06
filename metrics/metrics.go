@@ -22,7 +22,10 @@ func Meter(name string) metrics.Meter {
 		mu.Unlock()
 	}
 
-	return meters[name]
+        m := meters[name]
+        metrics.Register(name, m)
+
+	return m
 }
 
 func report_metrics_to_stdout() {

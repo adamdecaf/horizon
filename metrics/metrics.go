@@ -11,7 +11,7 @@ import (
 var registry metrics.Registry = metrics.NewRegistry()
 
 var mu sync.Mutex
-var meters map[string]metrics.Meter
+var meters map[string]metrics.Meter = make(map[string]metrics.Meter)
 
 func Meter(name string) metrics.Meter {
 	exists := meters[name]

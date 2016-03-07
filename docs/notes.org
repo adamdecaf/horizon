@@ -1,10 +1,4 @@
 # horizon notes
-* analysis
- - images
-   - https://github.com/rwcarlsen/goexif
- - text
-   - github.com/blevesearch/bleve
-   - github.com/neurosnap/sentences
 * data sources
  - geo data
    - zip codes
@@ -51,6 +45,5 @@
    - https://github.com/ChimeraCoder/anaconda
    - https://stackoverflow.com/questions/16890648/how-can-i-use-golangs-compress-gzip-package-to-gzip-a-file
 * todo
- - write bulk data as .sql migrations under ./storage/migrations/data/* instead of go scripts?
  - switch over to Godeps or something
  - store twitter tweets in cassandra

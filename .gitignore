@@ -1,6 +1,8 @@
 logs/
 /.vagrant/
 
+.DS_Store
+
 # xtreemfs dirs
 configs/dir/
 configs/mrc/

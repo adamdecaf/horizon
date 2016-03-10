@@ -1,7 +1,6 @@
 package retrieval
 
 import (
-	"fmt"
 	"net/url"
 	"log"
 	"os"
@@ -23,26 +22,11 @@ type TwitterPublicSampleCrawler struct {
 func (c TwitterPublicSampleCrawler) Run() *error {
 	log.Println("TwitterPublicSampleCrawler")
 
-	consumer_key := os.Getenv("TWITTER_CONSUMER_KEY")
-	consumer_secret_key := os.Getenv("TWITTER_CONSUMER_SECRET")
-
-	if consumer_key == "" || consumer_secret_key == "" {
-		err := fmt.Errorf("[Retrieval] Missing consumer keys (key=%s) (secret=%s)", consumer_key, consumer_secret_key)
+	api, err := create_twitter_api()
+	if err != nil {
 		return &err
 	}
 
-	access_token := os.Getenv("TWITTER_ACCESS_TOKEN")
-	access_secret := os.Getenv("TWITTER_ACCESS_SECRET")
-
-	if access_token == "" || access_secret == "" {
-		err := fmt.Errorf("[Retrieval] Missing access tokens (token=%s) (secret=%s)", access_token, access_secret)
-		return &err
-	}
-
-	anaconda.SetConsumerKey(consumer_key)
-	anaconda.SetConsumerSecret(consumer_secret_key)
-
-	api := anaconda.NewTwitterApi(access_token, access_secret)
 	api.EnableThrottling(5 * time.Second, 20)
 
 	params := url.Values{}

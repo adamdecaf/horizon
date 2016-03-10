@@ -87,11 +87,10 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 }
 
 func SpawnTwitterPublicSampleCrawler() *error {
-	if run := os.Getenv("TWITTER_CRAWLER_ENABLED"); run == "yes" {
+	if run := os.Getenv("TWITTER_PUBLIC_CRAWLER_ENABLED"); run == "yes" {
 		log.Println("[Spawn] creating TwitterPublicSampleCrawler")
 		crawler := TwitterPublicSampleCrawler{}
 		return RunCrawler(crawler)
 	}
-
 	return nil
 }

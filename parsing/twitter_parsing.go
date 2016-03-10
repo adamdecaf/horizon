@@ -4,6 +4,7 @@ import (
 	"log"
 	"github.com/adamdecaf/horizon/metrics"
 	"github.com/adamdecaf/horizon/storage"
+	// "github.com/zhenjl/porter2" // use to stem tweets
 )
 
 var url_parser = UrlMultiParser{}
@@ -12,6 +13,14 @@ var tweets_with_urls_meter = metrics.Meter("twitter.tweets-with-urls")
 
 func SpawnTwitterParsers(tweet storage.BasicTweet) *error {
 	// find urls
+	err := find_and_store_urls(tweet)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func find_and_store_urls(tweet storage.BasicTweet) *error {
 	urls, err := url_parser.Parse(tweet.Text)
 	if err != nil {
 		log.Printf("Error when parsing tweet err=%s\n", err)

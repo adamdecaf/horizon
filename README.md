@@ -4,7 +4,7 @@
 
 ## Dependencies
 
-- Run `./bin/get-deps.sh`
+- Run `go get -u`
 
 ## Running Tests
 

@@ -72,11 +72,11 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
 				log.Printf("error while writing twitter tweet err=%s\n", *err)
 				insert_failed_meter.Mark(1)
+			} else {
+				tweets_meter.Mark(1)
 
 				// ignore duplicates, so we don't check for failures
 				storage.WriteTwitterUser(twitter_user)
-			} else {
-				tweets_meter.Mark(1)
 			}
 
 			go parsing.SpawnTwitterParsers(basic_tweet)

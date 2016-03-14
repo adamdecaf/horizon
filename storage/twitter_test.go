@@ -6,7 +6,7 @@ import (
 	"github.com/adamdecaf/horizon/utils"
 )
 
-func TestReadWritTwitterData(t *testing.T) {
+func TestReadWriteTwitterData(t *testing.T) {
 	// Test Data
 	tweet_id := utils.RandString(20)
 	twitter_user_id := utils.RandString(20)
@@ -60,5 +60,25 @@ func TestReadWritTwitterData(t *testing.T) {
 	}
 	if found_tweet.Id != tweet.Id {
 		t.Fatalf("found tweet and created tweet don't match (found_tweet=%s, tweet_id = %s)", found_tweet, tweet_id)
+	}
+
+	// Grab tweets from a minute ago.
+	start := time.Now().Add(-1 * time.Minute)
+	end := time.Now()
+	results, err := GrabTweetsViaDateRange(start, end, 10)
+	if err != nil {
+		t.Fatalf("found error when getting date range of tweets err=%s", err)
+	}
+	if len(results) < 1 {
+		t.Fatalf("found no tweets when we expected some err=%s", &err)
+	}
+}
+
+func TestWriteProcessorMentionRun(t *testing.T) {
+	id := utils.RandString(20)
+	now := time.Now()
+	result := TwitterMentionProcessorRun{id, now, now, now}
+	if err := WriteTwitterMentionProcessorRun(result); err != nil {
+		t.Fatalf("erorr writing twitter mention processor run err=%s", *err)
 	}
 }

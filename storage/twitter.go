@@ -21,41 +21,11 @@ type BasicTweet struct {
 	User TwitterUser
 }
 
-func SearchTwitterTweetsById(tweet_id string) (BasicTweet, error) {
-	var id string
-	var text string
-	var twitter_user_id string
-	var created_at time.Time
-
-	db, err := InitializePostgres()
-	if err != nil {
-		return BasicTweet{}, err
-	}
-
-	rows, err := db.Query("select tweet_id, twitter_user_id, text, created_at from twitter_tweets where tweet_id=$1 limit 1;", tweet_id)
-
-	if err != nil {
-		return BasicTweet{}, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		err = rows.Scan(&id, &twitter_user_id, &text, &created_at)
-		if err != nil {
-			log.Printf("[Storage] error getting tweet = %s\n", err)
-			return BasicTweet{}, err
-		}
-
-		user, err := SearchTwitterUserById(twitter_user_id)
-		if err != nil {
-			return BasicTweet{}, err
-		}
-
-		return BasicTweet{created_at, id, text, user}, nil
-	}
-
-	return BasicTweet{}, fmt.Errorf("Unable to find tweet for id %s", tweet_id)
+type TwitterMentionProcessorRun struct {
+	Id string
+	RangeStart time.Time
+	RangeEnd time.Time
+	CreatedAt time.Time
 }
 
 func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
@@ -88,6 +58,66 @@ func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 	}
 
 	return TwitterUser{}, fmt.Errorf("Unable to find twitter user for id %s", twitter_user_id)
+}
+
+func SearchTwitterTweetsById(tweet_id string) (BasicTweet, error) {
+	base := "select tweet_id, twitter_user_id, text, created_at from twitter_tweets where tweet_id=$1 limit 1;"
+	res, err := query_twitter_tweets(base, tweet_id)
+
+	if err != nil {
+		return BasicTweet{}, err
+	}
+
+	if len(res) > 0 {
+		return res[0], nil
+	}
+
+	return BasicTweet{}, fmt.Errorf("Unable to find tweet tweet_id=%s", tweet_id)
+}
+
+func GrabTweetsViaDateRange(start time.Time, end time.Time, max int) ([]BasicTweet, error) {
+	base := "select tweet_id, twitter_user_id, text, created_at from twitter_tweets where created_at >= $1 and created_at <= $2 limit $3;"
+	return query_twitter_tweets(base, start, end, max)
+}
+
+func query_twitter_tweets(base string, rest ...interface{}) ([]BasicTweet, error) {
+	var id string
+	var text string
+	var twitter_user_id string
+	var created_at time.Time
+
+	var results []BasicTweet
+
+	db, err := InitializePostgres()
+	if err != nil {
+		return results, err
+	}
+
+	rows, err := db.Query(base, rest...)
+
+	if err != nil {
+		return results, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		err = rows.Scan(&id, &twitter_user_id, &text, &created_at)
+		if err != nil {
+			log.Printf("[Storage] error getting tweet = %s\n", err)
+			return results, err
+		}
+
+		user, err := SearchTwitterUserById(twitter_user_id)
+		if err != nil {
+			return results, err
+		}
+
+		tweet := BasicTweet{created_at, id, text, user}
+		results = append(results, tweet)
+	}
+
+	return results, nil
 }
 
 func WriteTwitterTweet(tweet BasicTweet) *error {
@@ -132,6 +162,30 @@ func WriteTwitterUser(user TwitterUser) *error {
 
 	if rows != 1 {
 		err := fmt.Errorf("[Storage] didn't insert twitter user as expected (rows=%s)\n", rows)
+		return &err
+	}
+
+	return nil
+}
+
+func WriteTwitterMentionProcessorRun(run TwitterMentionProcessorRun) *error {
+	db, err := InitializePostgres()
+	if err != nil {
+		return &err
+	}
+
+	result, err := db.Exec("insert into twitter_mention_processing_runs (twitter_mention_processing_id, range_start, range_end, created_at) values ($1, $2, $3, $4)", run.Id, run.RangeStart, run.RangeEnd, run.CreatedAt)
+	if err != nil {
+		return &err
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return &err
+	}
+
+	if rows != 1 {
+		err := fmt.Errorf("[Storage] didn't insert twitter mention processor result as expected (rows=%s)\n", rows)
 		return &err
 	}
 

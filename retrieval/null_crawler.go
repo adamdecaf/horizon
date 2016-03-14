@@ -1,7 +1,7 @@
 package retrieval
 
 import (
-	"fmt"
+	"log"
 )
 
 type NullCrawler struct {
@@ -9,12 +9,12 @@ type NullCrawler struct {
 }
 
 func (c NullCrawler) Run() *error {
-	fmt.Println("NullCrawler.Run()")
+	log.Println("NullCrawler.Run()")
 	return nil
 }
 
 func SpawnNullCrawler() *error {
-	fmt.Println("[Spawn] NullCrawler")
+	log.Println("[Spawn] NullCrawler")
 	crawler := NullCrawler{}
 	return RunCrawler(crawler)
 }

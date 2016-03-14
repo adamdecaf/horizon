@@ -5,6 +5,7 @@ import (
 
 	"github.com/adamdecaf/horizon/analysis"
 	"github.com/adamdecaf/horizon/metrics"
+	"github.com/adamdecaf/horizon/reprocess"
 	"github.com/adamdecaf/horizon/retrieval"
 	"github.com/adamdecaf/horizon/storage"
 )
@@ -20,6 +21,9 @@ func main() {
 
 	// spawn crawlers
 	go retrieval.SpawnCrawlers()
+
+	// start (re)processors
+	go reprocess.SpawnProcessors()
 
 	// Start stdout reporting
 	go metrics.InitializeStdoutReporter()

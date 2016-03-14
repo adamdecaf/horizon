@@ -53,7 +53,6 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			twitter_user.Name = tweet.User.Name
 			twitter_user.ScreenName = tweet.User.ScreenName
 
-
 			// tweet
 			basic_tweet := storage.BasicTweet{}
 
@@ -69,21 +68,25 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 			basic_tweet.Text = tweet.Text
 			basic_tweet.User = twitter_user
 
-			if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
-				log.Printf("error while writing twitter tweet err=%s\n", *err)
-				insert_failed_meter.Mark(1)
-			} else {
-				tweets_meter.Mark(1)
-
-				// ignore duplicates, so we don't check for failures
-				storage.WriteTwitterUser(twitter_user)
-			}
+			go store_tweet_and_user(basic_tweet, twitter_user)
 
 			go parsing.SpawnTwitterParsers(basic_tweet)
 		}
 	}
 
 	return nil
+}
+
+func store_tweet_and_user(basic_tweet storage.BasicTweet, twitter_user storage.TwitterUser) {
+	if err := storage.WriteTwitterTweet(basic_tweet); err != nil {
+		log.Printf("error while writing twitter tweet err=%s\n", *err)
+		insert_failed_meter.Mark(1)
+	} else {
+		tweets_meter.Mark(1)
+
+		// ignore duplicates, so we don't check for failures
+		storage.WriteTwitterUser(twitter_user)
+	}
 }
 
 func SpawnTwitterPublicSampleCrawler() *error {

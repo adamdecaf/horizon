@@ -11,7 +11,7 @@ import (
 )
 
 func InsertCountries(pool grpool.Pool) *error {
-	file, err := os.Open("./storage/raw-data/countries")
+	file, err := os.Open("./data/raw-data/countries")
 	if err != nil {
 		return &err
 	}

@@ -17,7 +17,7 @@ const (
 )
 
 func InsertRawStates(pool grpool.Pool) *error {
-	file, err := os.Open("./storage/raw-data/states")
+	file, err := os.Open("./data/raw-data/states")
 	if err != nil {
 		return & err
 	}

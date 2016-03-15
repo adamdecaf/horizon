@@ -86,7 +86,7 @@ func insert_gzipped_sql() {
 
 	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
                 fmt.Printf("[storage] Starting to insert 1m hostnames in .sql file\n")
-		rows, err := postgres.ExecuteGzippedSQL("storage/raw-data/top-1m-hostnames.sql.gz")
+		rows, err := postgres.ExecuteGzippedSQL("data/raw-data/top-1m-hostnames.sql.gz")
 		if err != nil {
 			fmt.Printf("[storage] Error when inserting top 1m hostnames from .sql err=%s\n", err)
 		}

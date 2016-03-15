@@ -10,7 +10,7 @@ func MigrateStorage() {
 	log.Println("migrating storage")
 
 	migrations := &migrate.FileMigrationSource{
-		Dir: "storage/migrations/",
+		Dir: "data/engines/postgres/migrations/",
 	}
 
 	db, err := InitializePostgres()

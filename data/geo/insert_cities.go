@@ -22,7 +22,7 @@ func InsertRawCitiesFromStates(pool grpool.Pool) *error {
 		return &err
 	}
 
-	file, err := os.Open("./storage/raw-data/cities")
+	file, err := os.Open("./data/raw-data/cities")
 	if err != nil {
 		return &err
 	}

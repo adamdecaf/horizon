@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"log"
 
-	"github.com/adamdecaf/horizon/storage"
+	"github.com/adamdecaf/horizon/data/geo"
 )
 
 type CityState struct {
-	City storage.City `json:"city"`
-	State storage.State `json:"state"`
+	City geo.City `json:"city"`
+	State geo.State `json:"state"`
 }
 
 type CityResult struct {
@@ -23,7 +23,7 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 
 	query := r.URL.Query().Get("q")
 	if query != "" {
-		cities, err := storage.SearchCitiesByName(query)
+		cities, err := geo.SearchCitiesByName(query)
 		if err != nil {
 			log.Printf("[Analysis] error getting cities param='%s' err='%s'\n", query, err)
 			w.WriteHeader(503)
@@ -54,18 +54,18 @@ func SearchCities(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-var cached_states []storage.State
+var cached_states []geo.State
 
-func find_state(state_id string) (storage.State, error) {
+func find_state(state_id string) (geo.State, error) {
 	for i := range cached_states {
 		if state_id == cached_states[i].Id {
 			return cached_states[i], nil
 		}
 	}
 
-	state, err := storage.FindStateById(state_id)
+	state, err := geo.FindStateById(state_id)
 	if err != nil {
-		return storage.State{}, err
+		return geo.State{}, err
 	}
 
 	if state != nil {
@@ -73,5 +73,5 @@ func find_state(state_id string) (storage.State, error) {
 		return *state, nil
 	}
 
-	return storage.State{}, fmt.Errorf("unable to really find state... (state_id=%s)", state_id)
+	return geo.State{}, fmt.Errorf("unable to really find state... (state_id=%s)", state_id)
 }

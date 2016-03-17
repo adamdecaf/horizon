@@ -2,7 +2,7 @@ package twitter
 
 import (
 	"log"
-	"os"
+	"github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data"
 )
 
@@ -17,7 +17,9 @@ func (p TwitterMentionReProcessor) Run() *error {
 }
 
 func SpawnTwitterMentionReProcessor() *error {
-	if run := os.Getenv("TWITTER_MENTION_PROCESSOR_ENABLED"); run == "yes" {
+	config := configs.NewConfig()
+
+	if run := config.Get("TWITTER_MENTION_PROCESSOR_ENABLED"); run == "yes" {
 		log.Printf("[Spawn] TwitterMentionReProcessor (run=%s)\n", run)
 		reprocessor := TwitterMentionReProcessor{}
 		return data.StartReProcessor(reprocessor)

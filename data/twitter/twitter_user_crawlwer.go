@@ -2,7 +2,7 @@ package twitter
 
 import (
 	"log"
-	"os"
+	"github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data"
 )
 
@@ -51,7 +51,9 @@ func (c TwitterUserCrawler) Run() *error {
 }
 
 func SpawnTwitterUserCrawler() *error {
-	if run := os.Getenv("TWITTER_USER_CRAWLER_ENABLED"); run == "yes" {
+	config := configs.NewConfig()
+
+	if run := config.Get("TWITTER_USER_CRAWLER_ENABLED"); run == "yes" {
 		log.Println("[Spawn] creating TwitterUserCrawler")
 		crawler := TwitterUserCrawler{}
 		return data.RunCrawler(crawler)

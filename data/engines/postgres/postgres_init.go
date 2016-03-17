@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 	_ "github.com/lib/pq"
+	"github.com/adamdecaf/horizon/configs"
 )
 
 var db *sql.DB
@@ -21,10 +21,12 @@ func InitializePostgres() (*sql.DB, error) {
 		return db, nil
 	}
 
-	user := os.Getenv("STORAGE_USER")
-	password := os.Getenv("STORAGE_PASSWORD")
-	host := os.Getenv("STORAGE_HOSTNAME")
-	port := os.Getenv("STORAGE_PORT")
+	config := configs.NewConfig()
+
+	user := config.Get("STORAGE_USER")
+	password := config.Get("STORAGE_PASSWORD")
+	host := config.Get("STORAGE_HOSTNAME")
+	port := config.Get("STORAGE_PORT")
 	dbname := "horizon"
 
 	conn_string := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)

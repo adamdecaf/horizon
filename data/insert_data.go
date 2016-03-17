@@ -2,9 +2,8 @@ package data
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/ivpusic/grpool"
+	"github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data/engines/postgres"
 	"github.com/adamdecaf/horizon/data/geo"
 )
@@ -27,19 +26,21 @@ func insert_raw_data() {
 	} else {
 		pool.WaitCount(10)
 
-		if run := os.Getenv("INSERT_RAW_STATES"); run == "yes" {
+		config := configs.NewConfig()
+
+		if run := config.Get("INSERT_RAW_STATES"); run == "yes" {
 			if err := geo.InsertRawStates(*pool); err != nil {
 				fmt.Printf("[data] Error when inserting raw state data (err=%s)\n", err)
 			}
 		}
 
-		if run := os.Getenv("INSERT_RAW_CITIES"); run == "yes" {
+		if run := config.Get("INSERT_RAW_CITIES"); run == "yes" {
 			if err := geo.InsertRawCitiesFromStates(*pool); err != nil {
 				fmt.Printf("[data] Error when inserting raw city data (err=%s)\n", err)
 			}
 		}
 
-		if run := os.Getenv("INSERT_RAW_COUNTRIES"); run == "yes" {
+		if run := config.Get("INSERT_RAW_COUNTRIES"); run == "yes" {
 			if err := geo.InsertCountries(*pool); err != nil {
 				fmt.Printf("[data] Error when inserting country data (err=%s)\n", err)
 			}
@@ -52,7 +53,9 @@ func insert_raw_data() {
 func insert_gzipped_sql() {
 	fmt.Printf("[storage] Inserting gzipped sql files\n")
 
-	if run := os.Getenv("INSERT_HOSTNAMES"); run == "yes" {
+	config := configs.NewConfig()
+
+	if run := config.Get("INSERT_HOSTNAMES"); run == "yes" {
                 fmt.Printf("[storage] Starting to insert 1m hostnames in .sql file\n")
 		rows, err := postgres.ExecuteGzippedSQL("data/raw-data/top-1m-hostnames.sql.gz")
 		if err != nil {

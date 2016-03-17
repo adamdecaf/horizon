@@ -3,9 +3,9 @@ package twitter
 import (
 	"net/url"
 	"log"
-	"os"
 	"time"
 	"github.com/ChimeraCoder/anaconda"
+	"github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data"
 	"github.com/adamdecaf/horizon/metrics"
 )
@@ -88,7 +88,9 @@ func store_tweet_and_user(basic_tweet BasicTweet, twitter_user TwitterUser) {
 }
 
 func SpawnTwitterPublicSampleCrawler() *error {
-	if run := os.Getenv("TWITTER_PUBLIC_CRAWLER_ENABLED"); run == "yes" {
+	config := configs.NewConfig()
+
+	if run := config.Get("TWITTER_PUBLIC_CRAWLER_ENABLED"); run == "yes" {
 		log.Println("[Spawn] creating TwitterPublicSampleCrawler")
 		crawler := TwitterPublicSampleCrawler{}
 		return data.RunCrawler(crawler)

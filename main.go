@@ -2,31 +2,33 @@ package main
 
 import (
 	"log"
-
 	"github.com/adamdecaf/horizon/analysis"
+	"github.com/adamdecaf/horizon/data"
+	postgres "github.com/adamdecaf/horizon/data/engines/postgres"
+	internet "github.com/adamdecaf/horizon/data/internet"
+	reddit "github.com/adamdecaf/horizon/data/reddit"
+	twitter "github.com/adamdecaf/horizon/data/twitter"
 	"github.com/adamdecaf/horizon/metrics"
-	"github.com/adamdecaf/horizon/reprocess"
-	"github.com/adamdecaf/horizon/retrieval"
-	"github.com/adamdecaf/horizon/storage"
 )
 
 func main() {
 	log.Println("Starting horizon")
 
-	// Setup tables
-	storage.MigrateStorage()
+	// Setup postgres tables
+	postgres.MigrateStorage()
 
-	// Insert base data
-	go storage.InsertData()
-
-	// spawn crawlers
-	go retrieval.SpawnCrawlers()
-
-	// start (re)processors
-	go reprocess.SpawnProcessors()
-
-	// Start stdout reporting
+	// async things
+	go data.InsertData()
 	go metrics.InitializeStdoutReporter()
+
+	// crawlers
+	go reddit.SpawnRedditCrawler()
+	go twitter.SpawnTwitterPublicSampleCrawler()
+	go internet.SpawnWhoisCrawler()
+
+	// reprocessors
+	log.Println("[reprocessors] Spawning reprocessors")
+	go twitter.SpawnTwitterMentionProcessor()
 
 	// Start the analysis http server
 	analysis.StartHttpServer()

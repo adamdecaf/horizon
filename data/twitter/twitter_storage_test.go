@@ -70,7 +70,7 @@ func TestReadWriteTwitterData(t *testing.T) {
 		t.Fatalf("found error when getting date range of tweets err=%s", err)
 	}
 	if len(results) < 1 {
-		t.Fatalf("found no tweets when we expected some err=%s", &err)
+		t.Fatalf("found no tweets when we expected some err=%s", err)
 	}
 }
 

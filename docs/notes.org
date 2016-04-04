@@ -1,4 +1,7 @@
 # horizon notes
+* incoming
+ - github.com/PuerkitoBio/goquery
+ - github.com/PuerkitoBio/fetchbot
 * data sources
  - geo data
    - zip codes

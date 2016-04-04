@@ -1,8 +1,19 @@
 # horizon images
 
-## Postgres
+## Data Transit
+
+zookeeper:
+  build: containers/zookeeper/
+
+kafka1:
+  build: containers/kafka/
+  ports:
+    - "9092:9092"
+
+## Data Storage
+
 postgres:
-  build: psql/
+  build: containers/psql/
   ports:
     - "5432:5432"
   restart: always
@@ -19,7 +30,7 @@ postgres:
 
 influxdb1:
   image: tutum/influxdb
-  ports: 
+  ports:
    - "8083:8083"
    - "8086:8086"
 
@@ -29,4 +40,3 @@ grafana:
    - "3000:3000"
   links:
    - influxdb1
-

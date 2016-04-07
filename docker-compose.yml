@@ -1,5 +1,33 @@
 # horizon images
 
+## Core components
+consul1:
+  build: containers/consul/
+  ports:
+    - "8500:8500"
+  environment:
+    CONSUL_NODE_NAME: consul1
+
+consul2:
+  build: containers/consul/
+  ports:
+    - "9500:8500"
+  environment:
+    CONSUL_NODE_NAME: consul2
+    CONSUL_SEED_NODE: consul1
+  links:
+    - consul1
+
+consul3:
+  build: containers/consul/
+  ports:
+    - "10500:8500"
+  environment:
+    CONSUL_NODE_NAME: consul3
+    CONSUL_SEED_NODE: consul1
+  links:
+    - consul1
+
 ## Data Transit
 
 zookeeper:

@@ -24,6 +24,7 @@ func (c TwitterPublicSampleCrawler) Run() *error {
 
 	api, err := create_twitter_api()
 	if err != nil {
+                log.Printf("error when creating twitter api err=%s\n", err)
 		return &err
 	}
 

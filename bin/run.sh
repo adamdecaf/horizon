@@ -8,6 +8,10 @@ export STORAGE_PORT=5432
 
 ## Metrics
 export STDOUT_REPORTING_ENABLED=no
+export LIBRATO_REPORTING_ENABLED=yes
+export LIBRATO_OWNER_EMAIL=adamkshannon@gmail.com
+export LIBRATO_API_TOKEN=592e3708ffa92bdd1c8d70ea3d95fca3b9f7b11812f028ed054a4314fa7fb50f
+export LIBRATO_INSTANCE_HOSTNAME=horizon2
 
 ## Reddit
 export REDDIT_CRAWLER_ENABLED=no

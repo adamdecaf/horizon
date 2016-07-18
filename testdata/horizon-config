@@ -1,0 +1,4 @@
+empty_in_file=
+exists_only_in_file=A
+exists_in_os_env_and_file=B
+contains_multiple_equals=like_some=passwords_would

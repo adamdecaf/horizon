@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 	metrics "github.com/rcrowley/go-metrics"
+	"github.com/adamdecaf/horizon/configs"
 )
 
 var registry metrics.Registry = metrics.DefaultRegistry
@@ -35,8 +36,15 @@ func report_metrics_to_stdout() {
 }
 
 func InitializeStdoutReporter() {
-	if run := os.Getenv("STDOUT_REPORTING_ENABLED"); run == "yes" {
+	config := configs.NewConfig()
+
+	if run := config.Get("STDOUT_REPORTING_ENABLED"); run == "yes" {
                 log.Println("starting stdout metrics reporting")
                 go metrics.Log(metrics.DefaultRegistry, 1 * time.Minute, log.New(os.Stderr, "metrics: ", log.Lmicroseconds))
+	}
+
+	if run := config.Get("LIBRATO_REPORTING_ENABLED"); run == "yes" {
+		log.Println("starting librato metrics reporting")
+		go report_metrics_to_librato(metrics.DefaultRegistry)
 	}
 }

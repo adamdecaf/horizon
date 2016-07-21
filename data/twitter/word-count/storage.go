@@ -4,8 +4,13 @@ import (
 	"fmt"
 	"log"
 	"time"
+	metrics "github.com/adamdecaf/horizon/metrics"
 	twitter "github.com/adamdecaf/horizon/data/twitter"
 	postgres "github.com/adamdecaf/horizon/data/engines/postgres"
+)
+
+var (
+	word_counts_chunk_timer = metrics.Timer("twitter.word-count.chunk-lookup-timer")
 )
 
 type HourlyWordCount struct {
@@ -32,11 +37,17 @@ func hasWordCountsForHour(hour time.Time) (bool, error) {
 
 func getTweetChunk(hour time.Time, offset, limit int) []twitter.TextOnlyTweet {
 	next := hour.Add(1 * time.Hour)
+
+	start := time.Now()
 	tweets, err := twitter.GetTweetTextFromDateRange(hour, next, offset, limit)
+	end := time.Now()
 	if err != nil {
 		log.Printf("error reading tweets err=%s\n", err)
 		return nil
 	}
+
+	word_counts_chunk_timer.Update(end.Sub(start))
+
 	return tweets
 }
 

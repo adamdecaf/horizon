@@ -42,8 +42,10 @@ func (w WordCountReprocessor) Run() *error {
 			offset += len(tweets)
 
 			for i := range tweets {
+				tweets_processed.Mark(1)
 				tweet := tweets[i]
 				words := strings.Split(tweet.Text, " ")
+				words_counted.Mark(int64(len(words)))
 
 				subCounts := make(map[string]int, 0)
 				for i := range words {

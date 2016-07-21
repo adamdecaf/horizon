@@ -8,6 +8,7 @@ import (
 	internet "github.com/adamdecaf/horizon/data/internet"
 	reddit "github.com/adamdecaf/horizon/data/reddit"
 	twitter "github.com/adamdecaf/horizon/data/twitter"
+	wordcount "github.com/adamdecaf/horizon/data/twitter/word-count"
 	"github.com/adamdecaf/horizon/metrics"
 )
 
@@ -29,6 +30,7 @@ func main() {
 	// reprocessors
 	log.Println("[reprocessors] Spawning reprocessors")
 	go twitter.SpawnTwitterMentionProcessor()
+	go wordcount.SpawnWordCountReprocessor()
 
 	// Start the analysis http server
 	analysis.StartHttpServer()

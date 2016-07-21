@@ -29,6 +29,11 @@ type TwitterMentionProcessorRun struct {
 	CreatedAt time.Time
 }
 
+type TextOnlyTweet struct {
+	Id string
+	Text string
+}
+
 func SearchTwitterUserById(twitter_user_id string) (TwitterUser, error) {
 	var id string
 	var name string
@@ -220,4 +225,35 @@ func WriteTwitterUrls(tweet_id string, urls []string) *error {
 	}
 
 	return nil
+}
+
+func GetTweetTextFromDateRange(start, end time.Time, offset, limit int) ([]TextOnlyTweet, error) {
+	var id string
+	var text string
+	var results []TextOnlyTweet
+
+	query := "select tweet_id, text from twitter_tweets where created_at >= $1 and created_at < $2 offset $3 limit $4;"
+
+	db, err := postgres.InitializePostgres()
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := db.Query(query, start, end, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err = rows.Scan(&id, &text)
+		if err != nil {
+			return nil, err
+		}
+
+		tweet := TextOnlyTweet{id, text}
+		results = append(results, tweet)
+	}
+
+	return results, nil
 }

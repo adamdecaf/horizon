@@ -21,12 +21,14 @@ type WordCountReprocessor struct {
 }
 
 func (w WordCountReprocessor) Run() *error {
+       for { 
 	hour := randomHourStart()
 	hasCounts, err := hasWordCountsForHour(hour)
 	if err != nil {
 		return &err
 	}
-	if hasCounts {
+        log.Printf("hasCounts = %b\n", hasCounts)
+	if !hasCounts {
 		offset := 0
 		limit := 1000
 
@@ -35,6 +37,7 @@ func (w WordCountReprocessor) Run() *error {
 		// generate counts
 		for {
 			tweets := getTweetChunk(hour, offset, limit)
+                        log.Printf("tweets = %d\n", tweets)
 			if len(tweets) == 0 {
 				return nil
 			}
@@ -62,6 +65,7 @@ func (w WordCountReprocessor) Run() *error {
 		// store counts
 		return storeTweetWordCounts(counts)
 	}
+}
 	return nil
 }
 

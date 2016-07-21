@@ -13,6 +13,7 @@ var registry metrics.Registry = metrics.DefaultRegistry
 
 var mu sync.Mutex
 var meters map[string]metrics.Meter = make(map[string]metrics.Meter)
+var timers map[string]metrics.Timer = make(map[string]metrics.Timer)
 
 func Meter(name string) metrics.Meter {
 	exists := meters[name]
@@ -27,6 +28,21 @@ func Meter(name string) metrics.Meter {
         metrics.Register(name, m)
 
 	return m
+}
+
+func Timer(name string) metrics.Timer {
+	exists := timers[name]
+
+	if exists == nil {
+		mu.Lock()
+		timers[name] = metrics.NewTimer()
+		mu.Unlock()
+	}
+
+	t := timers[name]
+	metrics.Register(name, t)
+
+	return t
 }
 
 func report_metrics_to_stdout() {

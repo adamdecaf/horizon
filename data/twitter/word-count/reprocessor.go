@@ -21,51 +21,51 @@ type WordCountReprocessor struct {
 }
 
 func (w WordCountReprocessor) Run() *error {
-       for { 
-	hour := randomHourStart()
-	hasCounts, err := hasWordCountsForHour(hour)
-	if err != nil {
-		return &err
-	}
-        log.Printf("hasCounts = %b\n", hasCounts)
-	if !hasCounts {
-		offset := 0
-		limit := 1000
-
-		counts := make([]HourlyWordCount, 0)
-
-		// generate counts
-		for {
-			tweets := getTweetChunk(hour, offset, limit)
-                        log.Printf("tweets = %d\n", tweets)
-			if len(tweets) == 0 {
-				return nil
-			}
-
-			offset += len(tweets)
-
-			for i := range tweets {
-				tweets_processed.Mark(1)
-				tweet := tweets[i]
-				words := strings.Split(tweet.Text, " ")
-				words_counted.Mark(int64(len(words)))
-
-				subCounts := make(map[string]int, 0)
-				for i := range words {
-					subCounts[strings.ToLower(words[i])] += 0
-				}
-
-				for k,v := range subCounts {
-					c := HourlyWordCount{k, v, hour}
-					counts = append(counts, c)
-				}
-			}
+	for {
+		hour := randomHourStart()
+		hasCounts, err := hasWordCountsForHour(hour)
+		if err != nil {
+			return &err
 		}
+		log.Printf("hasCounts = %b\n", hasCounts)
+		if !hasCounts {
+			offset := 0
+			limit := 1000
 
-		// store counts
-		return storeTweetWordCounts(counts)
+			counts := make([]HourlyWordCount, 0)
+
+			// generate counts
+			for {
+				tweets := getTweetChunk(hour, offset, limit)
+				log.Printf("tweets = %d\n", tweets)
+				if len(tweets) == 0 {
+					return nil
+				}
+
+				offset += len(tweets)
+
+				for i := range tweets {
+					tweets_processed.Mark(1)
+					tweet := tweets[i]
+					words := strings.Split(tweet.Text, " ")
+					words_counted.Mark(int64(len(words)))
+
+					subCounts := make(map[string]int, 0)
+					for i := range words {
+						subCounts[strings.ToLower(words[i])] += 0
+					}
+
+					for k,v := range subCounts {
+						c := HourlyWordCount{k, v, hour}
+						counts = append(counts, c)
+					}
+				}
+			}
+
+			// store counts
+			return storeTweetWordCounts(counts)
+		}
 	}
-}
 	return nil
 }
 

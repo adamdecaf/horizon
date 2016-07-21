@@ -64,7 +64,7 @@ func (w WordCountReprocessor) Run() *error {
 			}
 
 			// store counts
-			return storeTweetWordCounts(counts)
+			storeTweetWordCounts(counts)
 		}
 	}
 	return nil

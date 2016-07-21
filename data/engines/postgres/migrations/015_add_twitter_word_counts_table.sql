@@ -1,3 +1,4 @@
+-- +migrate Up
 create table twitter_hourly_word_counts (
        word varchar(32) not null,
        count smallint not null,

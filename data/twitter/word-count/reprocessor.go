@@ -25,7 +25,8 @@ func (w WordCountReprocessor) Run() *error {
 		hour := randomHourStart()
 		hasCounts, err := hasWordCountsForHour(hour)
 		if err != nil {
-			return &err
+			log.Printf("error reading word count chunk err=%s\n", err)
+			continue
 		}
 		log.Printf("hasCounts = %b\n", hasCounts)
 		if !hasCounts {
@@ -39,7 +40,7 @@ func (w WordCountReprocessor) Run() *error {
 				tweets := getTweetChunk(hour, offset, limit)
 				log.Printf("tweets = %d\n", tweets)
 				if len(tweets) == 0 {
-					return nil
+					continue
 				}
 
 				offset += len(tweets)

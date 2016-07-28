@@ -15,7 +15,7 @@ func report_metrics_to_librato(registry metrics.Registry) {
 	hostname := config.Get("LIBRATO_INSTANCE_HOSTNAME")
 
 	librato.Librato(registry,
-		1 * time.Minute,			// interval
+		1 * time.Minute,	// interval
 		owner,			// account owner email address
 		token,			// Librato API token
 		hostname,		// source

@@ -45,12 +45,6 @@ func Timer(name string) metrics.Timer {
 	return t
 }
 
-func report_metrics_to_stdout() {
-        log.Println("reporting metrics to stdout")
-	out := os.Stdout
-	metrics.WriteOnce(registry, out)
-}
-
 func InitializeStdoutReporter() {
 	config := configs.NewConfig()
 

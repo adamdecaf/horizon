@@ -30,13 +30,24 @@ consul3:
 
 ## Data Transit
 
-zookeeper:
+zookeeper1:
   build: containers/zookeeper/
+  ports:
+    - "2181:2181"
+    - "2888:2888"
+    - "3888:3888"
+  volumes:
+    - /opt/zookeeper/conf:/opt/zookeeper/conf
+    - /tmp/zookeeper:/tmp/zookeeper
 
 kafka1:
   build: containers/kafka/
   ports:
     - "9092:9092"
+  volumes:
+    - /opt/kafka:/opt/kafka
+  environment:
+    KAFKA_ZOOKEEPER_CONNECT: zookeeper1:2181/kafka
 
 ## Data Storage
 

@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"github.com/adamdecaf/horizon/analysis"
+	"sync"
 	"github.com/adamdecaf/horizon/data"
 	postgres "github.com/adamdecaf/horizon/data/engines/postgres"
 	internet "github.com/adamdecaf/horizon/data/internet"
@@ -32,6 +32,13 @@ func main() {
 	go twitter.SpawnTwitterMentionProcessor()
 	go wordcount.SpawnWordCountReprocessor()
 
-	// Start the analysis http server
-	analysis.StartHttpServer()
+	// wait forever
+	block()
+}
+
+func block() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	log.Println("waiting for exit signal")
+	wg.Wait()
 }

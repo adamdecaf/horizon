@@ -1,0 +1,15 @@
+# machine-setup todo
+* docker setup
+ - install lxc-docker package
+* packages
+ - commands
+   - apt-get update && sudo apt-get install -y -q --force-yes
+ - required
+   - curl htop ntp screen vim
+   - sysstat
+      apt-get install -y -q sysstat
+      sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat
+      sed -i 's/5-55\/10/*/' /etc/cron.d/sysstat
+      /etc/init.d/sysstat restart
+ - nice to have
+   - dstat

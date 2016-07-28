@@ -28,7 +28,6 @@ func main() {
 	go internet.SpawnWhoisCrawler()
 
 	// reprocessors
-	log.Println("[reprocessors] Spawning reprocessors")
 	go twitter.SpawnTwitterMentionProcessor()
 	go wordcount.SpawnWordCountReprocessor()
 

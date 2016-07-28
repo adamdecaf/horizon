@@ -1,45 +1,5 @@
 # horizon images
 
-## Core components
-consul1:
-  build: containers/consul/
-  ports:
-    - "8500:8500"
-  environment:
-    CONSUL_NODE_NAME: consul1
-
-consul2:
-  build: containers/consul/
-  ports:
-    - "9500:8500"
-  environment:
-    CONSUL_NODE_NAME: consul2
-    CONSUL_SEED_NODE: consul1
-  links:
-    - consul1
-
-consul3:
-  build: containers/consul/
-  ports:
-    - "10500:8500"
-  environment:
-    CONSUL_NODE_NAME: consul3
-    CONSUL_SEED_NODE: consul1
-  links:
-    - consul1
-
-## Data Transit
-
-zookeeper:
-  build: containers/zookeeper/
-
-kafka1:
-  build: containers/kafka/
-  ports:
-    - "9092:9092"
-
-## Data Storage
-
 postgres:
   build: containers/psql/
   ports:
@@ -53,18 +13,3 @@ postgres:
   volumes:
     - /var/lib/postgresql/data/:/var/lib/postgresql/data/
     - /var/log/postgresql/:/var/log/postgresql/
-
-## Metrics
-
-influxdb1:
-  image: tutum/influxdb
-  ports:
-   - "8083:8083"
-   - "8086:8086"
-
-grafana:
-  image: grafana/grafana
-  ports:
-   - "3000:3000"
-  links:
-   - influxdb1

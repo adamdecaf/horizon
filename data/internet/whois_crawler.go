@@ -13,9 +13,9 @@ type WhoisCrawler struct {
 }
 
 func (c WhoisCrawler) Run() *error {
-	log.Println("WhoisCrawler run")
+	log.Println("starting WhoisCrawler")
 
-	// Grab some ready-to-run hostnames to lookup whois results for
+	// todo: Grab some ready-to-run hostnames to lookup whois results for
 
 	res, err := whois.WhoisQuery("google.com")
 	if err != nil {
@@ -28,7 +28,6 @@ func (c WhoisCrawler) Run() *error {
 }
 
 func SpawnWhoisCrawler() *error {
-	log.Println("[Spawn] WhoisCrawler")
 	crawler := WhoisCrawler{}
 	return data.RunCrawler(crawler)
 }

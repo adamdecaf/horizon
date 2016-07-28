@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	log.Println("Starting horizon")
+	log.Println("starting horizon")
 
 	// Setup postgres tables
 	postgres.MigrateStorage()

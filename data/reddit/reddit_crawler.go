@@ -12,7 +12,7 @@ type RedditCrawler struct {
 }
 
 func (c RedditCrawler) Run() *error {
-	log.Println("Starting RedditCrawler")
+	log.Println("starting RedditCrawler")
 
 	config := configs.NewConfig()
 
@@ -53,7 +53,6 @@ func SpawnRedditCrawler() *error {
 	config := configs.NewConfig()
 
 	if run := config.Get("REDDIT_CRAWLER_ENABLED"); run == "yes" {
-		log.Printf("[Spawn] RedditCrawler (run=%s)\n", run)
 		crawler := RedditCrawler{}
 		return data.RunCrawler(crawler)
 	}

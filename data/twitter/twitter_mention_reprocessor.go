@@ -21,7 +21,7 @@ var mention_reprocess_step = 1 * time.Hour
 var max_tweets_per_mention_reprocess = 5000
 
 func (p TwitterMentionProcessor) Run() *error {
-	log.Printf("")
+	log.Printf("starting TwitterMentionProcessor")
 	reprocess_range, err := get_tweet_range()
 	if err != nil {
 		return &err

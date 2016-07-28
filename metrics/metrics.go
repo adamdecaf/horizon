@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/adamdecaf/horizon/configs"
+	"github.com/adamdecaf/horizon/utils"
 )
 
 var registry metrics.Registry = metrics.DefaultRegistry
@@ -46,7 +46,7 @@ func Timer(name string) metrics.Timer {
 }
 
 func InitializeStdoutReporter() {
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	if run := config.Get("STDOUT_REPORTING_ENABLED"); run == "yes" {
                 log.Println("starting stdout metrics reporting")

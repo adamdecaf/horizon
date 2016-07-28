@@ -3,7 +3,6 @@ package twitter
 import (
 	"log"
 	"time"
-	"github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data"
 	"github.com/adamdecaf/horizon/utils"
 )
@@ -61,7 +60,7 @@ func get_tweet_range() (MentionReprocessRange, error) {
 }
 
 func SpawnTwitterMentionProcessor() *error {
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	if run := config.Get("TWITTER_MENTION_PROCESSOR_ENABLED"); run == "yes" {
 		log.Printf("[Spawn] TwitterMentionProcessor (run=%s)\n", run)

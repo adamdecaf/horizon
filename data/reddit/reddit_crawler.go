@@ -2,7 +2,7 @@ package reddit
 
 import (
 	"log"
-	"github.com/adamdecaf/horizon/configs"
+	"github.com/adamdecaf/horizon/utils"
 	"github.com/adamdecaf/horizon/data"
 	"github.com/jzelinskie/geddit"
 )
@@ -14,7 +14,7 @@ type RedditCrawler struct {
 func (c RedditCrawler) Run() *error {
 	log.Println("starting RedditCrawler")
 
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	session, err := geddit.NewLoginSession(
 		config.Get("REDDIT_USERNAME"),
@@ -50,7 +50,7 @@ func (c RedditCrawler) Run() *error {
 }
 
 func SpawnRedditCrawler() *error {
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	if run := config.Get("REDDIT_CRAWLER_ENABLED"); run == "yes" {
 		crawler := RedditCrawler{}

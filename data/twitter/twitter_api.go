@@ -2,12 +2,12 @@ package twitter
 
 import (
 	"fmt"
-	"github.com/adamdecaf/horizon/configs"
+	"github.com/adamdecaf/horizon/utils"
 	"github.com/ChimeraCoder/anaconda"
 )
 
 func create_twitter_api() (*anaconda.TwitterApi, error) {
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	consumer_key := config.Get("TWITTER_CONSUMER_KEY")
 	consumer_secret_key := config.Get("TWITTER_CONSUMER_SECRET")

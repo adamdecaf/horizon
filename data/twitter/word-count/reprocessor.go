@@ -5,9 +5,9 @@ import (
 	"math/rand"
 	"strings"
 	"time"
-	configs "github.com/adamdecaf/horizon/configs"
 	"github.com/adamdecaf/horizon/data"
 	"github.com/adamdecaf/horizon/metrics"
+	"github.com/adamdecaf/horizon/utils"
 	postgres "github.com/adamdecaf/horizon/data/engines/postgres"
 )
 
@@ -100,7 +100,7 @@ func HasWordCountsForHour(hour time.Time) (bool, error) {
 }
 
 func SpawnWordCountReprocessor() *error {
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 	if run := config.Get("TWITTER_WORD_COUNT_REPROCESSOR_ENABLED"); run == "yes" {
 		log.Printf("[Spawn] Twitter WordCountReprocessor (run=%s)\n", run)
 		reprocessor := WordCountReprocessor{}

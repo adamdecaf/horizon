@@ -3,7 +3,7 @@ package data
 import (
 	"fmt"
 	"github.com/ivpusic/grpool"
-	"github.com/adamdecaf/horizon/configs"
+	"github.com/adamdecaf/horizon/utils"
 	"github.com/adamdecaf/horizon/data/engines/postgres"
 	"github.com/adamdecaf/horizon/data/geo"
 )
@@ -26,7 +26,7 @@ func insert_raw_data() {
 	} else {
 		pool.WaitCount(10)
 
-		config := configs.NewConfig()
+		config := utils.NewConfig()
 
 		if run := config.Get("INSERT_RAW_STATES"); run == "yes" {
 			if err := geo.InsertRawStates(*pool); err != nil {
@@ -53,7 +53,7 @@ func insert_raw_data() {
 func insert_gzipped_sql() {
 	fmt.Printf("[storage] Inserting gzipped sql files\n")
 
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	if run := config.Get("INSERT_HOSTNAMES"); run == "yes" {
                 fmt.Printf("[storage] Starting to insert 1m hostnames in .sql file\n")

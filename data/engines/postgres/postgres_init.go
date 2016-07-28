@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 	_ "github.com/lib/pq"
-	"github.com/adamdecaf/horizon/configs"
+	"github.com/adamdecaf/horizon/utils"
 )
 
 var db *sql.DB
@@ -21,7 +21,7 @@ func InitializePostgres() (*sql.DB, error) {
 		return db, nil
 	}
 
-	config := configs.NewConfig()
+	config := utils.NewConfig()
 
 	user := config.Get("STORAGE_USER")
 	password := config.Get("STORAGE_PASSWORD")

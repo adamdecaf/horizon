@@ -1,5 +1,7 @@
 package twitter
 
+// todo: split apart into tweets and users
+
 import (
 	"fmt"
 	"log"

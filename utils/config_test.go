@@ -23,7 +23,7 @@ func TestConfigReadingFromOS(t *testing.T) {
 }
 
 func TestConfigReadingFromFile(t *testing.T) {
-	config := NewConfigFromPath("../testdata/horizon-config")
+	config := NewConfigFromPath("testdata/horizon-config")
 
 	if v := config.Get("empty_in_file"); v != "" {
 		t.Fatalf("expected empty config value for empty_in_file got '%s'", v)
@@ -46,7 +46,7 @@ func TestConfigReadingFromFile(t *testing.T) {
 }
 
 func TestConfigFileParsingHandlesValuesWithEquals(t *testing.T) {
-	config := NewConfigFromPath("../testdata/horizon-config")
+	config := NewConfigFromPath("testdata/horizon-config")
 
 	if v := config.Get("contains_multiple_equals"); v != "like_some=passwords_would" {
 		t.Fatalf("expected contains_multiple_equals equals like_some=passwords_would, got '%s'", v)

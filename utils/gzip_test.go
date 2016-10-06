@@ -5,7 +5,7 @@ import (
 )
 
 func TestGzipReadEmptyFile(t *testing.T) {
-	body, err := GzipDecompressFile("../testdata/empty-file.gz")
+	body, err := GzipDecompressFile("testdata/empty-file.gz")
 	if err != nil {
 		t.Fatalf("error reading compressed file err=%s", err)
 	}
@@ -15,7 +15,7 @@ func TestGzipReadEmptyFile(t *testing.T) {
 }
 
 func TestGzipReadFile(t *testing.T) {
-	body, err := GzipDecompressFile("../testdata/file-with-data.gz")
+	body, err := GzipDecompressFile("testdata/file-with-data.gz")
 	if err != nil {
 		t.Fatalf("error reading compressed file err=%s", err)
 	}

@@ -1,4 +1,4 @@
-package geo
+package states
 
 import (
 	"fmt"

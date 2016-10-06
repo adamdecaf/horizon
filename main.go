@@ -6,7 +6,6 @@ package main
 // 	"github.com/adamdecaf/horizon/data"
 // 	postgres "github.com/adamdecaf/horizon/data/engines/postgres"
 // 	internet "github.com/adamdecaf/horizon/data/internet"
-// 	reddit "github.com/adamdecaf/horizon/data/reddit"
 // 	twitter "github.com/adamdecaf/horizon/data/twitter"
 // 	wordcount "github.com/adamdecaf/horizon/data/twitter/word-count"
 // 	"github.com/adamdecaf/horizon/metrics"
@@ -23,7 +22,6 @@ package main
 // 	go metrics.InitializeStdoutReporter()
 
 // 	// crawlers
-// 	go reddit.SpawnRedditCrawler()
 // 	go twitter.SpawnTwitterPublicSampleCrawler()
 // 	go internet.SpawnWhoisCrawler()
 

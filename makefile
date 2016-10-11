@@ -1,10 +1,10 @@
 .PHONY: vet build test
 
 vet:
-	./scripts/cmd.sh $(proj) go tool vet .
+	./bin/cmd.sh 'vet' $(proj)
 
 build: vet
-	./scripts/cmd.sh $(proj) go build .
+	./bin/cmd.sh 'build' $(proj)
 
 test: build
-	./scripts/cmd.sh $(proj) go test -v ./...
+	./bin/cmd.sh 'test' $(proj)
